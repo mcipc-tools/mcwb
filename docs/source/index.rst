@@ -1,9 +1,7 @@
-mcipc - A Minecraft inter-process communication library
+mcwb - A Minecraft world builder library
 =======================================================
 
-`mcipc` is a Python 3 library, which provides clients to interact with Minecraft servers.
-It therefor implements the `RCON <http://wiki.vg/RCON>`_ and `Query <http://wiki.vg/Query>`_ protocols.
-There is also work on the Minecraft server protocol in progress, but you should not rely on that code.
+`mcwb` is a Python 3 library, which provides functions to manipulate Minecraft worlds via `RCON <http://wiki.vg/RCON>`_ commands.
 
 .. toctree::
    :maxdepth: 2
