@@ -2,8 +2,7 @@
 A Minecraft world builder library.
 
 ## Requirements
-`mcwb` requires Python 3.8 or higher.  
-It also depends on [mcipc](https://github.com/conqp/mcipc).  
+`mcwb` requires Python 3.8 or higher. It also depends on [mcipc](https://github.com/conqp/mcipc).  
 If you install `mcwb` via `pip`, it will automatically be installed as a dependency.
 
 ## Documentation
