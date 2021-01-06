@@ -4,7 +4,7 @@ from mcipc.rcon.client import Client
 from mcipc.rcon.enumerations import FillMode, Item
 
 from mcwb.functions import check_xz_dir
-from mcwb.functions import get_offset
+from mcwb.functions import offsets
 from mcwb.functions import normalize
 from mcwb.functions import validate
 from mcwb.types import Anchor, Direction, Profile, Vec3
@@ -29,13 +29,10 @@ def mktunnel(client: Client, profile: Profile, start: Vec3, *,
     else:
         end = Vec3(*end)    # Ensure Vec3 object.
 
-    direction = check_xz_dir(start, end)
+    calculated_direction = check_xz_dir(start, end)
     profile = list(normalize(profile, default=default))
 
-    for y, row in enumerate(profile):   # pylint: disable=C0103
-        for xz, block in enumerate(row):    # pylint: disable=C0103
-            offset = get_offset(y, xz, direction, anchor)
-            result = client.fill(
-                start + offset, end + offset, block, mode=mode, filter=filter
-            )
-            print(result)
+    for block, offset in offsets(profile, calculated_direction, anchor):
+        client.fill(
+            start + offset, end + offset, block, mode=mode, filter=filter
+        )
