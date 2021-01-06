@@ -1,13 +1,13 @@
 """Helper functions."""
 
-from typing import Iterator
+from typing import Iterator, Tuple
 
 from mcipc.rcon.enumerations import Item
 
 from mcwb.types import Anchor, Profile, Row, Vec3
 
 
-__all__ = ['validate', 'normalize', 'check_xz_dir', 'get_offset']
+__all__ = ['check_xz_dir', 'normalize', 'offsets', 'validate']
 
 
 def validate(profile: Profile) -> bool:
@@ -40,11 +40,14 @@ def check_xz_dir(start: Vec3, end: Vec3) -> Vec3:
 
 
 # pylint: disable=C0103
-def offsets(profile: Profile, direction: Vec3, anchor: Anchor):
+def offsets(profile: Profile, direction: Vec3,
+            anchor: Anchor) -> Tuple[Item, Vec3]:
+    """Yields block offsets dependent on the given direction."""
+
     height = len(profile)
     width = len(profile[0])
-
     y_start = x_start = 0
+
     if anchor in {Anchor.BOTTOM_LEFT, Anchor.BOTTOM_RIGHT}:
         y_start = height - 1
     if anchor in {Anchor.TOP_RIGHT, Anchor.BOTTOM_RIGHT}:
@@ -53,17 +56,18 @@ def offsets(profile: Profile, direction: Vec3, anchor: Anchor):
     for y, row in enumerate(profile):  # pylint: disable=C0103
         for xz, block in enumerate(row):  # pylint: disable=C0103
             if direction.north:
-                v = Vec3(-x_start + xz, y_start - y, 0)
+                vec = Vec3(-x_start + xz, y_start - y, 0)
             elif direction.south:
-                v = Vec3(x_start - xz, y_start - y, 0)
+                vec = Vec3(x_start - xz, y_start - y, 0)
             elif direction.east:
-                v = Vec3(0, y_start - y, -x_start + xz)
+                vec = Vec3(0, y_start - y, -x_start + xz)
             elif direction.west:
-                v = Vec3(0, y_start - y, x_start - xz)
+                vec = Vec3(0, y_start - y, x_start - xz)
             elif direction.up:
-                v = Vec3(-x_start + xz, 0, y_start - y)
+                vec = Vec3(-x_start + xz, 0, y_start - y)
             elif direction.down:
-                v = Vec3(-x_start + xz, 0, -y_start + y)
+                vec = Vec3(-x_start + xz, 0, -y_start + y)
             else:
-                raise ValueError("Cannot determine offset.")
-            yield block, v
+                raise ValueError('Cannot determine offset.')
+
+            yield (block, vec)
