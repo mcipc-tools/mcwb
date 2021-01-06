@@ -39,7 +39,6 @@ def check_xz_dir(start: Vec3, end: Vec3) -> Vec3:
     return end - start
 
 
-# pylint: disable=C0103
 def offsets(profile: Profile, direction: Vec3, anchor: Anchor) -> Offsets:
     """Yields block offsets dependent on the given direction."""
 
