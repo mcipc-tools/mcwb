@@ -1,10 +1,10 @@
 """Helper functions."""
 
-from typing import Iterator, Tuple
+from typing import Iterator
 
 from mcipc.rcon.enumerations import Item
 
-from mcwb.types import Anchor, Profile, Row, Vec3
+from mcwb.types import Anchor, Offsets, Profile, Row, Vec3
 
 
 __all__ = ['check_xz_dir', 'normalize', 'offsets', 'validate']
@@ -40,8 +40,7 @@ def check_xz_dir(start: Vec3, end: Vec3) -> Vec3:
 
 
 # pylint: disable=C0103
-def offsets(profile: Profile, direction: Vec3,
-            anchor: Anchor) -> Tuple[Item, Vec3]:
+def offsets(profile: Profile, direction: Vec3, anchor: Anchor) -> Offsets:
     """Yields block offsets dependent on the given direction."""
 
     height = len(profile)

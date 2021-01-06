@@ -2,12 +2,20 @@
 
 from enum import Enum
 from math import sqrt
-from typing import List, NamedTuple, Union
+from typing import Iterator, List, NamedTuple, Tuple, Union
 
 from mcipc.rcon.enumerations import Item
 
 
-__all__ = ['Anchor', 'Direction', 'Profile', 'Row', 'Vec3']
+__all__ = [
+    'Anchor',
+    'Direction',
+    'Offset',
+    'Offsets',
+    'Profile',
+    'Row',
+    'Vec3'
+]
 
 
 class Anchor(Enum):
@@ -99,3 +107,5 @@ class Direction(Enum):
 
 Row = List[Union[Item, None]]
 Profile = List[Row]
+Offset = Tuple[Item, Vec3]
+Offsets = Iterator[Offset]
