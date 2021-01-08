@@ -1,5 +1,6 @@
 """Builder data types."""
 
+from __future__ import annotations
 from enum import Enum
 from math import sqrt
 from typing import Any, Iterator, List, NamedTuple, Tuple, Union
