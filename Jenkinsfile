@@ -22,5 +22,11 @@ pipeline {
       }
     }
 
+    stage('Send Email') {
+      steps {
+        mail(subject: '[mcwb] build successful', body: 'https://jenkins.richard-neumann.de/blue/organizations/jenkins/mcwb/activity', from: 'jenkins@richard-neumann.de', to: 'mail@richard-neumann.de')
+      }
+    }
+
   }
 }
