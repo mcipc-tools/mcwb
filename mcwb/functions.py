@@ -11,26 +11,26 @@ __all__ = ['get_direction', 'normalize', 'offsets', 'validate']
 
 
 def _get_offset(direction: Vec3, x_start: Number, y_start: Number,
-                y: Number, xz: Number) -> Vec3:     # pylint: disable=C0103
+                delta_y: Number, delta_xz: Number) -> Vec3:
     """Returns the offset for a given direction."""
 
     if direction.north:
-        return Vec3(-x_start + xz, y_start - y, 0)
+        return Vec3(-x_start + delta_xz, y_start - delta_y, 0)
 
     if direction.south:
-        return Vec3(x_start - xz, y_start - y, 0)
+        return Vec3(x_start - delta_xz, y_start - delta_y, 0)
 
     if direction.east:
-        return Vec3(0, y_start - y, -x_start + xz)
+        return Vec3(0, y_start - delta_y, -x_start + delta_xz)
 
     if direction.west:
-        return Vec3(0, y_start - y, x_start - xz)
+        return Vec3(0, y_start - delta_y, x_start - delta_xz)
 
     if direction.up:
-        return Vec3(-x_start + xz, 0, y_start - y)
+        return Vec3(-x_start + delta_xz, 0, y_start - delta_y)
 
     if direction.down:
-        return Vec3(-x_start + xz, 0, -y_start + y)
+        return Vec3(-x_start + delta_xz, 0, -y_start + delta_y)
 
     raise ValueError('Cannot determine offset.')
 
@@ -71,9 +71,9 @@ def offsets(profile: Profile, direction: Vec3, anchor: Anchor) -> Offsets:
         x_start = int(width / 2)
         y_start = int(height / 2)
 
-    for y, row in enumerate(profile):  # pylint: disable=C0103
-        for xz, block in enumerate(row):  # pylint: disable=C0103
-            vec3 = _get_offset(direction, x_start, y_start, y, xz)
+    for delta_y, row in enumerate(profile):
+        for delta_xz, block in enumerate(row):
+            vec3 = _get_offset(direction, x_start, y_start, delta_y, delta_xz)
             yield (block, vec3)
 
 
