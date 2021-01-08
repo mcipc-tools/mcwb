@@ -68,6 +68,13 @@ class Vec3(NamedTuple):
 
         return type(self)(self.x / other, self.y / other, self.z / other)
 
+    def __floordiv__(self, other):
+        if isinstance(other, Vec3):
+            return type(self)(self.x // other.x, self.y // other.y,
+                              self.z // other.z)
+
+        return type(self)(self.x // other, self.y // other, self.z // other)
+
     def with_ints(self):
         """Coerce all coordinates to int."""
         return type(self)(int(self.x), int(self.y), int(self.z))
