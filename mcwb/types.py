@@ -28,13 +28,35 @@ class Vec3(NamedTuple):
     z: Union[int, float] = 0
 
     def __add__(self, other):
-        return type(self)(self.x + other.x, self.y + other.y, self.z + other.z)
+        if type(other) is Vec3:
+            return type(self)(self.x + other.x, self.y + other.y, self.z + other.z)
+        else:
+            return type(self)(self.x + other, self.y + other, self.z + other)
 
     def __sub__(self, other):
-        return type(self)(self.x - other.x, self.y - other.y, self.z - other.z)
+        if type(other) is Vec3:
+            return type(self)(self.x - other.x, self.y - other.y, self.z - other.z)
+        else:
+            return type(self)(self.x - other, self.y - other, self.z - other)
 
     def __mul__(self, other):
-        return type(self)(self.x * other, self.y * other, self.z * other)
+        if type(other) is Vec3:
+            return type(self)(self.x * other.x, self.y * other.y, self.z * other.z)
+        else:
+            return type(self)(self.x * other, self.y * other, self.z * other)
+
+    def __truediv__(self, other):
+        if type(other) is Vec3:
+            return type(self)(self.x / other.x, self.y / other.y, self.z / other.z)
+        else:
+            return type(self)(self.x / other, self.y / other, self.z / other)
+
+    def to_int(self):
+        return type(self)(int(self.x), int(self.y), int(self.z))
+
+    @property
+    def volume(self):
+        return self.dx * self.dy * self.dz
 
     @property
     def dx(self):   # pylint: disable=C0103
