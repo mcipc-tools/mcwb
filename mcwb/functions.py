@@ -10,26 +10,6 @@ from mcwb.types import Anchor, Offsets, Profile, Row, Vec3
 __all__ = ['get_direction', 'normalize', 'offsets', 'validate']
 
 
-def validate(profile: Profile) -> bool:
-    """Sanitizes a matrix."""
-
-    rows = iter(profile)
-
-    try:
-        first = len(next(rows))
-    except StopIteration:
-        return True
-
-    return all(len(row) == first for row in rows)
-
-
-def normalize(profile: Profile, default: Item = Item.AIR) -> Iterator[Row]:
-    """Normalizes a profile."""
-
-    for row in profile:
-        yield [default if block is None else Item(block) for block in row]
-
-
 def get_direction(start: Vec3, end: Vec3) -> Vec3:
     """Checks whether the vetors form a line
     and returns the direction vector.
@@ -39,6 +19,13 @@ def get_direction(start: Vec3, end: Vec3) -> Vec3:
         raise ValueError('Not one direction given.')
 
     return end - start
+
+
+def normalize(profile: Profile, default: Item = Item.AIR) -> Iterator[Row]:
+    """Normalizes a profile."""
+
+    for row in profile:
+        yield [default if block is None else Item(block) for block in row]
 
 
 def offsets(profile: Profile, direction: Vec3, anchor: Anchor) -> Offsets:
@@ -74,3 +61,16 @@ def offsets(profile: Profile, direction: Vec3, anchor: Anchor) -> Offsets:
                 raise ValueError('Cannot determine offset.')
 
             yield (block, vec)
+
+
+def validate(profile: Profile) -> bool:
+    """Sanitizes a matrix."""
+
+    rows = iter(profile)
+
+    try:
+        first = len(next(rows))
+    except StopIteration:
+        return True
+
+    return all(len(row) == first for row in rows)
