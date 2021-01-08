@@ -45,6 +45,11 @@ class Vec3(NamedTuple):
         return type(self)(self.x * other, self.y * other, self.z * other)
 
     @property
+    def is_direction(self):
+        """Determines whether this is a direction vector."""
+        return sum(coord != 0 for coord in self) == 1
+
+    @property
     def dx(self):   # pylint: disable=C0103
         """Returns the absolute x value."""
         return abs(self.x)
