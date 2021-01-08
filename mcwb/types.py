@@ -42,25 +42,29 @@ class Vec3(NamedTuple):
 
     def __add__(self, other):
         if isinstance(other, Vec3):
-            return type(self)(self.x + other.x, self.y + other.y, self.z + other.z)
+            return type(self)(self.x + other.x, self.y + other.y,
+                              self.z + other.z)
 
         return type(self)(self.x + other, self.y + other, self.z + other)
 
     def __sub__(self, other):
         if isinstance(other, Vec3):
-            return type(self)(self.x - other.x, self.y - other.y, self.z - other.z)
+            return type(self)(self.x - other.x, self.y - other.y,
+                              self.z - other.z)
 
         return type(self)(self.x - other, self.y - other, self.z - other)
 
     def __mul__(self, other):
         if isinstance(other, Vec3):
-            return type(self)(self.x * other.x, self.y * other.y, self.z * other.z)
+            return type(self)(self.x * other.x, self.y * other.y,
+                              self.z * other.z)
 
         return type(self)(self.x * other, self.y * other, self.z * other)
 
     def __truediv__(self, other):
         if isinstance(other, Vec3):
-            return type(self)(self.x / other.x, self.y / other.y, self.z / other.z)
+            return type(self)(self.x / other.x, self.y / other.y,
+                              self.z / other.z)
 
         return type(self)(self.x / other, self.y / other, self.z / other)
 
