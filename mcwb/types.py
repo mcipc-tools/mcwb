@@ -41,34 +41,31 @@ class Vec3(NamedTuple):
     z: Number = 0
 
     def __add__(self, other):
-        if type(other) is Vec3:
+        if isinstance(other, Vec3):
             return type(self)(self.x + other.x, self.y + other.y, self.z + other.z)
-        else:
-            return type(self)(self.x + other, self.y + other, self.z + other)
+        return type(self)(self.x + other, self.y + other, self.z + other)
 
     def __sub__(self, other):
-        if type(other) is Vec3:
+        if isinstance(other, Vec3):
             return type(self)(self.x - other.x, self.y - other.y, self.z - other.z)
-        else:
-            return type(self)(self.x - other, self.y - other, self.z - other)
+        return type(self)(self.x - other, self.y - other, self.z - other)
 
     def __mul__(self, other):
-        if type(other) is Vec3:
+        if isinstance(other, Vec3):
             return type(self)(self.x * other.x, self.y * other.y, self.z * other.z)
-        else:
-            return type(self)(self.x * other, self.y * other, self.z * other)
+        return type(self)(self.x * other, self.y * other, self.z * other)
 
     def __truediv__(self, other):
-        if type(other) is Vec3:
+        if isinstance(other, Vec3):
             return type(self)(self.x / other.x, self.y / other.y, self.z / other.z)
-        else:
-            return type(self)(self.x / other, self.y / other, self.z / other)
+        return type(self)(self.x / other, self.y / other, self.z / other)
 
     def to_int(self):
         return type(self)(int(self.x), int(self.y), int(self.z))
 
     @property
     def volume(self):
+        """ Returns the volume of the space described by (0,0,0) -> self """
         return self.dx * self.dy * self.dz
 
     @property
