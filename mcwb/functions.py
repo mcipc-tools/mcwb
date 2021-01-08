@@ -78,7 +78,7 @@ def offsets(profile: Profile, direction: Vec3, anchor: Anchor) -> Offsets:
 
 
 def validate(profile: Profile) -> bool:
-    """Sanitizes a matrix."""
+    """Validates a profile to have rows with equal length."""
 
     rows = iter(profile)
 
