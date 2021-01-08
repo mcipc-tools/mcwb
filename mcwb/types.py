@@ -30,7 +30,7 @@ class Anchor(Enum):
     TOP_RIGHT = 'top_right'
     BOTTOM_LEFT = 'bottom_left'
     BOTTOM_RIGHT = 'bottom_right'
-    CENTER = CENTRE = MIDDLE = 'middle'
+    MIDDLE = CENTER = CENTRE = 'middle'
 
 
 class Vec3(NamedTuple):
