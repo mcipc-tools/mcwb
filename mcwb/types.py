@@ -40,6 +40,9 @@ class Vec3(NamedTuple):
     y: Number = 0
     z: Number = 0
 
+    def __abs__(self):
+        return type(self)(abs(self.x), abs(self.y), abs(self.z))
+
     def __add__(self, other):
         if isinstance(other, Vec3):
             return type(self)(self.x + other.x, self.y + other.y,
