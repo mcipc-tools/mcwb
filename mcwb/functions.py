@@ -7,7 +7,7 @@ from mcipc.rcon.enumerations import Item
 from mcwb.types import Anchor, Offsets, Profile, Row, Vec3
 
 
-__all__ = ['check_xz_dir', 'normalize', 'offsets', 'validate']
+__all__ = ['get_direction', 'normalize', 'offsets', 'validate']
 
 
 def validate(profile: Profile) -> bool:
@@ -30,8 +30,10 @@ def normalize(profile: Profile, default: Item = Item.AIR) -> Iterator[Row]:
         yield [default if block is None else Item(block) for block in row]
 
 
-def check_xz_dir(start: Vec3, end: Vec3) -> Vec3:
-    """Checks whether the vetors for a line."""
+def get_direction(start: Vec3, end: Vec3) -> Vec3:
+    """Checks whether the vetors form a line
+    and returns the direction vector.
+    """
 
     if sum(coord1 != coord2 for coord1, coord2 in zip(start, end)) != 1:
         raise ValueError('Not one direction given.')
