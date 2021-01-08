@@ -66,6 +66,9 @@ class Vec3(NamedTuple):
     def __neg__(self):
         return type(self)(-self.x, -self.y, -self.z)
 
+    def __pos__(self):
+        return self     # No operation necessary.
+
     def __sub__(self, other):
         if isinstance(other, Vec3):
             return type(self)(self.x - other.x, self.y - other.y,
