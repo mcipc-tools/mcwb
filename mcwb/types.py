@@ -56,12 +56,12 @@ class Vec3(NamedTuple):
 
     @property
     def dy(self):   # pylint: disable=C0103
-        """Returns the absolute x value."""
+        """Returns the absolute y value."""
         return abs(self.y)
 
     @property
     def dz(self):   # pylint: disable=C0103
-        """Returns the absolute x value."""
+        """Returns the absolute z value."""
         return abs(self.z)
 
     @property
