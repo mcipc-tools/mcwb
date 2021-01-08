@@ -57,6 +57,18 @@ class Vec3(NamedTuple):
 
         return type(self)(self.x // other, self.y // other, self.z // other)
 
+    def __getitem__(self, index_or_key: Union[int, str]):
+        """Returns an item by index or key."""
+        if isinstance(index_or_key, str):
+            try:
+                return getattr(self, index_or_key)
+            except AttributeError:
+                raise KeyError(index_or_key) from None
+
+        # Explicitely call to tuple, since
+        # super() does not work in NamedTuples.
+        return tuple.__getitem__(self, index_or_key)
+
     def __mul__(self, other):
         if isinstance(other, Vec3):
             return self.__matmul__(other)
@@ -85,6 +97,10 @@ class Vec3(NamedTuple):
                               self.z / other.z)
 
         return type(self)(self.x / other, self.y / other, self.z / other)
+
+    def keys(self):
+        """Returns the keys."""
+        return self._items
 
     def with_ints(self):
         """Coerce all coordinates to int."""
