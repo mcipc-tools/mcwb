@@ -40,14 +40,34 @@ class Vec3(NamedTuple):
     y: Number = 0
     z: Number = 0
 
-    def __add__(self, other: Vec3):
-        return type(self)(self.x + other.x, self.y + other.y, self.z + other.z)
+    def __add__(self, other):
+        if isinstance(other, Vec3):
+            return type(self)(self.x + other.x, self.y + other.y, self.z + other.z)
+        return type(self)(self.x + other, self.y + other, self.z + other)
 
-    def __sub__(self, other: Vec3):
-        return type(self)(self.x - other.x, self.y - other.y, self.z - other.z)
+    def __sub__(self, other):
+        if isinstance(other, Vec3):
+            return type(self)(self.x - other.x, self.y - other.y, self.z - other.z)
+        return type(self)(self.x - other, self.y - other, self.z - other)
 
-    def __mul__(self, other: Number):
+    def __mul__(self, other):
+        if isinstance(other, Vec3):
+            return type(self)(self.x * other.x, self.y * other.y, self.z * other.z)
         return type(self)(self.x * other, self.y * other, self.z * other)
+
+    def __truediv__(self, other):
+        if isinstance(other, Vec3):
+            return type(self)(self.x / other.x, self.y / other.y, self.z / other.z)
+        return type(self)(self.x / other, self.y / other, self.z / other)
+
+    def with_ints(self):
+        """ coerce all coordinates to int """
+        return type(self)(int(self.x), int(self.y), int(self.z))
+
+    @property
+    def volume(self):
+        """ Returns the volume of the space described by (0,0,0) -> self """
+        return self.dx * self.dy * self.dz
 
     @property
     def is_direction(self):
