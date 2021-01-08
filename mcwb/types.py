@@ -1,13 +1,26 @@
 """Builder data types."""
 
+from __future__ import annotations
 from enum import Enum
 from math import sqrt
-from typing import List, NamedTuple, Union
+from typing import Iterator, List, NamedTuple, Tuple, Union
 
 from mcipc.rcon.enumerations import Item
 
 
-__all__ = ['Anchor', 'Direction', 'Profile', 'Row', 'Vec3']
+__all__ = [
+    'Anchor',
+    'Direction',
+    'Number',
+    'Offset',
+    'Offsets',
+    'Profile',
+    'Row',
+    'Vec3'
+]
+
+
+Number = Union[float, int]
 
 
 class Anchor(Enum):
@@ -17,15 +30,15 @@ class Anchor(Enum):
     TOP_RIGHT = 'top_right'
     BOTTOM_LEFT = 'bottom_left'
     BOTTOM_RIGHT = 'bottom_right'
-    MIDDLE = 'middle'
+    CENTER = CENTRE = MIDDLE = 'middle'
 
 
 class Vec3(NamedTuple):
     """A 3D vector."""
 
-    x: Union[int, float] = 0
-    y: Union[int, float] = 0
-    z: Union[int, float] = 0
+    x: Number = 0
+    y: Number = 0
+    z: Number = 0
 
     def __add__(self, other):
         if type(other) is Vec3:
@@ -59,18 +72,23 @@ class Vec3(NamedTuple):
         return self.dx * self.dy * self.dz
 
     @property
+    def is_direction(self):
+        """Determines whether this is a direction vector."""
+        return sum(coord != 0 for coord in self) == 1
+
+    @property
     def dx(self):   # pylint: disable=C0103
         """Returns the absolute x value."""
         return abs(self.x)
 
     @property
     def dy(self):   # pylint: disable=C0103
-        """Returns the absolute x value."""
+        """Returns the absolute y value."""
         return abs(self.y)
 
     @property
     def dz(self):   # pylint: disable=C0103
-        """Returns the absolute x value."""
+        """Returns the absolute z value."""
         return abs(self.z)
 
     @property
@@ -122,3 +140,5 @@ class Direction(Enum):
 
 Row = List[Union[Item, None]]
 Profile = List[Row]
+Offset = Tuple[Item, Vec3]
+Offsets = Iterator[Offset]

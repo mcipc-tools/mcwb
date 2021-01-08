@@ -1,3 +1,5 @@
+[![Documentation Status](https://readthedocs.org/projects/mcwb/badge/?version=latest)](https://mcwb.readthedocs.io/en/latest/?badge=latest)
+
 # mcwb
 A Minecraft world builder library.
 
@@ -6,7 +8,6 @@ A Minecraft world builder library.
 If you install `mcwb` via `pip`, it will automatically be installed as a dependency.
 
 ## Documentation
-[![Documentation Status](https://readthedocs.org/projects/mcwb/badge/?version=latest)](https://mcwb.readthedocs.io/en/latest/?badge=latest)  
 Documentation is available on [readthedocs](https://mcwb.readthedocs.io/en/latest).
 
 ## Quick start
