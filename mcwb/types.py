@@ -56,10 +56,12 @@ class Vec3(NamedTuple):
 
     def __mul__(self, other):
         if isinstance(other, Vec3):
-            return type(self)(self.x * other.x, self.y * other.y,
-                              self.z * other.z)
+            return self.__matmul__(other)
 
         return type(self)(self.x * other, self.y * other, self.z * other)
+
+    def __matmul__(self, other: Vec3):
+        return type(self)(self.x * other.x, self.y * other.y, self.z * other.z)
 
     def __truediv__(self, other):
         if isinstance(other, Vec3):
