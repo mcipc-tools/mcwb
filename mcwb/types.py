@@ -100,7 +100,7 @@ class Vec3(NamedTuple):
 
     def keys(self):
         """Returns the keys."""
-        return self._items
+        return self._fields
 
     def with_ints(self):
         """Coerce all coordinates to int."""
