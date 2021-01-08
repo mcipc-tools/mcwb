@@ -65,11 +65,8 @@ class Vec3(NamedTuple):
 
     def __getitem__(self, index_or_key: Union[int, str]):
         """Returns an item by index or key."""
-        if isinstance(index_or_key, str):
-            try:
-                return getattr(self, index_or_key)
-            except AttributeError:
-                raise KeyError(index_or_key) from None
+        if index_or_key in self.keys():
+            return getattr(self, index_or_key)
 
         # Explicitely call to tuple, since
         # super() does not work in NamedTuples.
