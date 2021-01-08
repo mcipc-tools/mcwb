@@ -35,13 +35,13 @@ class Vec3(NamedTuple):
     y: Union[int, float] = 0
     z: Union[int, float] = 0
 
-    def __add__(self, other):
+    def __add__(self, other: Vec3):
         return type(self)(self.x + other.x, self.y + other.y, self.z + other.z)
 
-    def __sub__(self, other):
+    def __sub__(self, other: Vec3):
         return type(self)(self.x - other.x, self.y - other.y, self.z - other.z)
 
-    def __mul__(self, other):
+    def __mul__(self, other: Union[int, float]):
         return type(self)(self.x * other, self.y * other, self.z * other)
 
     @property
