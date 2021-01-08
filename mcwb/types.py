@@ -84,6 +84,10 @@ class Vec3(NamedTuple):
     def __pos__(self):
         return self     # No operation necessary.
 
+    def __round__(self, ndigits: int = 0):
+        return type(self)(round(self.x, ndigits), round(self.y, ndigits),
+                          round(self.z, ndigits))
+
     def __sub__(self, other):
         if isinstance(other, Vec3):
             return type(self)(self.x - other.x, self.y - other.y,
