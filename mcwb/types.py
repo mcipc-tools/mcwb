@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from enum import Enum
-from math import sqrt
+from math import ceil, floor, sqrt
 from typing import Iterator, List, NamedTuple, Tuple, Union
 
 from mcipc.rcon.enumerations import Item
@@ -49,6 +49,12 @@ class Vec3(NamedTuple):
                               self.z + other.z)
 
         return type(self)(self.x + other, self.y + other, self.z + other)
+
+    def __ceil__(self):
+        return type(self)(ceil(self.x), ceil(self.y), ceil(self.z))
+
+    def __floor__(self):
+        return type(self)(floor(self.x), floor(self.y), floor(self.z))
 
     def __floordiv__(self, other):
         if isinstance(other, Vec3):
