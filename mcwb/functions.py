@@ -4,10 +4,35 @@ from typing import Iterator
 
 from mcipc.rcon.enumerations import Item
 
-from mcwb.types import Anchor, Offsets, Profile, Row, Vec3
+from mcwb.types import Anchor, Direction, Number, Offsets, Profile, Row, Vec3
 
 
 __all__ = ['get_direction', 'normalize', 'offsets', 'validate']
+
+
+def _get_offset(direction: Vec3, x_start: Number, y_start: Number,
+                y: Number, xz: Number) -> Vec3:     # pylint: disable=C0103
+    """Returns the offset for a given direction."""
+
+    if direction.north:
+        return Vec3(-x_start + xz, y_start - y, 0)
+
+    if direction.south:
+        return Vec3(x_start - xz, y_start - y, 0)
+
+    if direction.east:
+        return Vec3(0, y_start - y, -x_start + xz)
+
+    if direction.west:
+        return Vec3(0, y_start - y, x_start - xz)
+
+    if direction.up:
+        return Vec3(-x_start + xz, 0, y_start - y)
+
+    if direction.down:
+        return Vec3(-x_start + xz, 0, -y_start + y)
+
+    raise ValueError('Cannot determine offset.')
 
 
 def get_direction(start: Vec3, end: Vec3) -> Vec3:
@@ -33,7 +58,10 @@ def offsets(profile: Profile, direction: Vec3, anchor: Anchor) -> Offsets:
 
     height = len(profile)
     width = len(profile[0])
-    y_start = x_start = 0
+    x_start = y_start = 0
+
+    if isinstance(direction, Direction):
+        direction = direction.value
 
     if anchor in {Anchor.BOTTOM_LEFT, Anchor.BOTTOM_RIGHT}:
         y_start = height - 1
@@ -45,22 +73,8 @@ def offsets(profile: Profile, direction: Vec3, anchor: Anchor) -> Offsets:
 
     for y, row in enumerate(profile):  # pylint: disable=C0103
         for xz, block in enumerate(row):  # pylint: disable=C0103
-            if direction.north:
-                vec = Vec3(-x_start + xz, y_start - y, 0)
-            elif direction.south:
-                vec = Vec3(x_start - xz, y_start - y, 0)
-            elif direction.east:
-                vec = Vec3(0, y_start - y, -x_start + xz)
-            elif direction.west:
-                vec = Vec3(0, y_start - y, x_start - xz)
-            elif direction.up:
-                vec = Vec3(-x_start + xz, 0, y_start - y)
-            elif direction.down:
-                vec = Vec3(-x_start + xz, 0, -y_start + y)
-            else:
-                raise ValueError('Cannot determine offset.')
-
-            yield (block, vec)
+            vec3 = _get_offset(direction, x_start, y_start, y, xz)
+            yield (block, vec3)
 
 
 def validate(profile: Profile) -> bool:

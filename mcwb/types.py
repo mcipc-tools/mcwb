@@ -3,7 +3,7 @@
 from __future__ import annotations
 from enum import Enum
 from math import sqrt
-from typing import Any, Iterator, List, NamedTuple, Tuple, Union
+from typing import Iterator, List, NamedTuple, Tuple, Union
 
 from mcipc.rcon.enumerations import Item
 
@@ -11,12 +11,16 @@ from mcipc.rcon.enumerations import Item
 __all__ = [
     'Anchor',
     'Direction',
+    'Number',
     'Offset',
     'Offsets',
     'Profile',
     'Row',
     'Vec3'
 ]
+
+
+Number = Union[float, int]
 
 
 class Anchor(Enum):
@@ -32,9 +36,9 @@ class Anchor(Enum):
 class Vec3(NamedTuple):
     """A 3D vector."""
 
-    x: Union[int, float] = 0
-    y: Union[int, float] = 0
-    z: Union[int, float] = 0
+    x: Number = 0
+    y: Number = 0
+    z: Number = 0
 
     def __add__(self, other: Vec3):
         return type(self)(self.x + other.x, self.y + other.y, self.z + other.z)
@@ -42,7 +46,7 @@ class Vec3(NamedTuple):
     def __sub__(self, other: Vec3):
         return type(self)(self.x - other.x, self.y - other.y, self.z - other.z)
 
-    def __mul__(self, other: Union[int, float]):
+    def __mul__(self, other: Number):
         return type(self)(self.x * other, self.y * other, self.z * other)
 
     @property
@@ -110,10 +114,6 @@ class Direction(Enum):
     DOWN = Vec3(0, -1, 0)
     SOUTH = Vec3(0, 0, +1)
     NORTH = Vec3(0, 0, -1)
-
-    def __getattr__(self, attr: str) -> Any:
-        """Delegates to the value."""
-        return getattr(self.value, attr)
 
 
 Row = List[Union[Item, None]]
