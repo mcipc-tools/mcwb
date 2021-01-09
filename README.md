@@ -29,7 +29,7 @@ Install mcwb from the [AUR](https://aur.archlinux.org/packages/python-mcwb/) or 
 Many thanks to all contributers to the [Minecraft Wiki](https://minecraft.gamepedia.com/) and the [Wiki.vg](https://wiki.vg/Main_Page).
 
 ## License
-Copyright (C) 2018-2020 Richard Neumann <mail at richard dash neumann period de>
+Copyright (C) 2018-2021 Richard Neumann <mail at richard dash neumann period de>
 
 mcwb is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
