@@ -1,5 +1,5 @@
-mcwb package
-============
+Modules
+=======
 
 Submodules
 ----------

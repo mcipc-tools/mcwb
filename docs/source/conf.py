@@ -24,12 +24,12 @@ path.insert(0, abspath('../../'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'mcipc'
-copyright = '2020, Richard Neumann'
+project = 'mcwb'
+copyright = '2021, Richard Neumann'
 author = 'Richard Neumann'
 
 # The full version, including alpha/beta/rc tags
-release = '2.0.3'
+release = 'latest'
 
 
 # -- General configuration ---------------------------------------------------
