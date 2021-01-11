@@ -1,4 +1,5 @@
 from mcipc.rcon.enumerations import Item
+from mcipc.rcon.errors import InvalidArgument
 from mcipc.rcon.je import Client
 
 from mcwb import Anchor, Anchor3, Direction, Vec3, mktunnel
@@ -10,7 +11,7 @@ class Volume:
     """
     Describes a 3d space in a Minecraft world using a starting point and
     size. The starting point can be any vertex or the middle of one of the
-    horizontal faces, using the cardinal terminology defined in Anchor3
+    horizontal faces, using the cardinal terminology defined in Anchor3.
     """
 
     def __init__(
@@ -20,15 +21,20 @@ class Volume:
         anchor: Anchor3 = Anchor3.BOTTOM_NW,
         end: Vec3 = None,  # opposite corner instead of size and anchor
     ):
-        # TODO ensure Vec3
+        if (size is None) == (end is None):
+            raise InvalidArgument(
+                "Volume constructor takes only one of size or end")
+        position = Vec3(*position)
+
         if end is None:
+            size = Vec3(*size)
             offset = Vec3(0, 0, 0)
             if anchor.value in Anchor3.TOP.value:
-                offset += (0, 1 - size.y, 0)
+                offset += Vec3(0, 1 - size.y, 0)
             if anchor.value in Anchor3.SOUTH.value:
-                offset += (0, 0, 1 - size.z)
+                offset += Vec3(0, 0, 1 - size.z)
             if anchor.value in Anchor3.EAST.value:
-                offset += (1 - size.x, 0, 0)
+                offset += Vec3(1 - size.x, 0, 0)
             if anchor.value in Anchor3.MIDDLE_FACE.value:
                 offset -= Vec3(int(size.x / 2), 0, int(size.z / 2))
             elif anchor.value == Anchor3.MIDDLE.value:
@@ -37,6 +43,7 @@ class Volume:
             self.start = position + offset
             self.end = self.start + (size - 1)
         else:
+            end = Vec3(*end)
             # normalize start(position) and end so all start coords are minima
             position = self.start = Vec3(
                 min(position.x, end.x), min(
@@ -105,10 +112,10 @@ class Volume:
         b = block.value
         if n:
             client.fill(self.start, Vec3(
-                self.end.x, self.end.y, self.start.z - t), b)
+                self.end.x, self.end.y, self.start.z + t), b)
         if s:
             client.fill(self.end, Vec3(
-                self.start.x, self.start.y, self.end.z + t), b)
+                self.start.x, self.start.y, self.end.z - t), b)
         if w:
             client.fill(self.start, Vec3(
                 self.start.x + t, self.end.y, self.end.z), b)
