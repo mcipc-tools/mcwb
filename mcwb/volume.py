@@ -45,7 +45,7 @@ class Volume:
         else:
             end = Vec3(*end)
             # normalize start(position) and end so all start coords are minima
-            position = self.start = Vec3(
+            self.start = Vec3(
                 min(position.x, end.x), min(
                     position.y, end.y), min(position.z, end.z)
             )
@@ -53,8 +53,9 @@ class Volume:
                 max(position.x, end.x), max(
                     position.y, end.y), max(position.z, end.z)
             )
-            size = end - position + 1
+            position = self.start
             anchor = Anchor3.BOTTOM_NW
+            size = (self.end - position) + 1
 
         self.size = size
         self.position = position
