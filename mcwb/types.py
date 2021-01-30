@@ -61,8 +61,9 @@ class Anchor3Face:
            Anchor3.TOP_SE, Anchor3.TOP_MIDDLE}
     BOTTOM = {Anchor3.BOTTOM_SW, Anchor3.BOTTOM_NW,
               Anchor3.BOTTOM_NE, Anchor3.BOTTOM_SE}
-    MIDDLE = CENTER = CENTRE = {Anchor3.BOTTOM_MIDDLE,
-                                Anchor3.TOP_MIDDLE}
+    # middle of top or bottom
+    MIDDLE_FACE = CENTER_FACE = CENTRE_FACE = {Anchor3.BOTTOM_MIDDLE,
+                                               Anchor3.TOP_MIDDLE}
     NORTH = {Anchor3.TOP_NW, Anchor3.TOP_NE,
              Anchor3.BOTTOM_NW, Anchor3.BOTTOM_NE}
     SOUTH = {Anchor3.TOP_SW, Anchor3.TOP_SE,

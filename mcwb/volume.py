@@ -1,65 +1,75 @@
 from mcipc.rcon.enumerations import Item
-from mcipc.rcon.errors import InvalidArgument
 from mcipc.rcon.je import Client
 
 from mcwb import Anchor, Anchor3, Anchor3Face, Direction, Vec3, mktunnel
 
 __all__ = ['Volume']
 
+MAX_MINECRAFT_FILL_COMMAND = 32768
+
 
 class Volume:
     """
-    Describes a 3d space in a Minecraft world using a starting point and
-    size. The starting point can be any vertex or the middle of one of the
-    horizontal faces, using the cardinal terminology defined in Anchor3.
+    Describes a 3d space in a Minecraft world using one of:
+      - a starting point and size. The starting point can be any vertex or
+        the middle of one of the horizontal faces, using the cardinal
+        terminology defined in Anchor3.
+      - two opposite corners
     """
 
-    def __init__(
-        self,
-        position: Vec3,
-        size: Vec3 = None,
-        anchor: Anchor3 = Anchor3.BOTTOM_NW,
-        end: Vec3 = None,  # opposite corner instead of size and anchor
-    ):
-        if (size is None) == (end is None):
-            raise InvalidArgument(
-                'Volume constructor takes only one of size or end')
-        position = Vec3(*position)
+    def __init__(self):
+        self.start = Vec3(0, 0, 0)  # lowest coordinate in the volume
+        self.end = Vec3(0, 0, 0)  # highest coordinate in the volume
+        self.size = Vec3(0, 0, 0)  # the dimensions of the volume
 
-        if end is None:
-            size = Vec3(*size)
-            offset = Vec3(0, 0, 0)
-            if anchor in Anchor3Face.TOP:
-                offset += Vec3(0, 1 - size.y, 0)
-            if anchor in Anchor3Face.SOUTH:
-                offset += Vec3(0, 0, 1 - size.z)
-            if anchor in Anchor3Face.EAST:
-                offset += Vec3(1 - size.x, 0, 0)
-            if anchor in Anchor3Face.MIDDLE:
-                offset -= Vec3(int(size.x / 2), 0, int(size.z / 2))
-            elif anchor is Anchor3.MIDDLE:
-                offset = Vec3(-1, -1, -1) * (size / 2).with_ints()
+        # NOTE: position == start when self.anchor == Anchor3.BOTTOM_NW
+        self.anchor = Anchor3.BOTTOM_NW  # the anchor point for position
+        self.position = Vec3(0, 0, 0)  # the positon of the anchor point
 
-            self.start = position + offset
-            self.end = self.start + (size - 1)
-        else:
-            end = Vec3(*end)
-            # normalize start(position) and end so all start coords are minima
-            self.start = Vec3(
-                min(position.x, end.x), min(
-                    position.y, end.y), min(position.z, end.z)
-            )
-            self.end = Vec3(
-                max(position.x, end.x), max(
-                    position.y, end.y), max(position.z, end.z)
-            )
-            position = self.start
-            anchor = Anchor3.BOTTOM_NW
-            size = (self.end - position) + 1
+    @classmethod
+    def from_anchor(cls, position: Vec3, size: Vec3, anchor: Anchor3) -> "Volume":
+        """ a factory function to create a Volume using anchor and size """
+        volume = Volume()
+        volume.position = Vec3(*position)
+        volume.size = Vec3(*size)
+        volume.anchor = anchor
 
-        self.size = size
-        self.position = position
-        self.anchor = anchor
+        offset = Vec3(0, 0, 0)
+        if anchor in Anchor3Face.TOP:
+            offset += Vec3(0, 1 - size.y, 0)
+        if anchor in Anchor3Face.SOUTH:
+            offset += Vec3(0, 0, 1 - size.z)
+        if anchor in Anchor3Face.EAST:
+            offset += Vec3(1 - size.x, 0, 0)
+        if anchor in Anchor3Face.MIDDLE_FACE:  # middle of top or bottom
+            offset -= Vec3(int(size.x / 2), 0, int(size.z / 2))
+        elif anchor is Anchor3.MIDDLE:
+            offset = Vec3(-1, -1, -1) * (size / 2).with_ints()
+
+        volume.start = position + offset
+        volume.end = volume.start + (volume.size - 1)
+
+        return volume
+
+    @classmethod
+    def from_corners(cls, start: Vec3, end: Vec3) -> "Volume":
+        """ a factory function to define Volume using opposite corners """
+        volume = Volume()
+        start = Vec3(*start)
+        end = Vec3(*end)
+
+        # normalize start and end so all start coords are minima
+        volume.position = volume.start = Vec3(
+            min(start.x, end.x), min(
+                start.y, end.y), min(start.z, end.z)
+        )
+        volume.end = Vec3(
+            max(start.x, end.x), max(
+                start.y, end.y), max(start.z, end.z)
+        )
+        volume.size = (volume.end - volume.start) + 1
+
+        return volume
 
     def inside(
         self, position: Vec3, xtol: int = 0, ytol: int = 0, ztol: int = 0
@@ -74,16 +84,18 @@ class Volume:
     def move(self, distance: Vec3) -> None:
         """ move the volume's location in space by distance """
         self.start += distance
+        self.end += distance
         self.position += distance
 
     def move_to(self, position: Vec3) -> None:
         """ move the volume's location in space to position """
         self.start += position - self.position
+        self.end += position - self.position
         self.position = position
 
     def fill(self, client: Client, block: Item = Item.AIR):
         """ Fill the Volume with a single block type, supports large volumes """
-        if self.size.volume < 32768:
+        if self.size.volume < MAX_MINECRAFT_FILL_COMMAND:
             client.fill(self.start, self.end, block.value)
         else:
             profile = [[block.value] * int(self.size.x)] * int(self.size.y)
