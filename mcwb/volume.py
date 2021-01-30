@@ -23,7 +23,7 @@ class Volume:
     ):
         if (size is None) == (end is None):
             raise InvalidArgument(
-                "Volume constructor takes only one of size or end")
+                'Volume constructor takes only one of size or end')
         position = Vec3(*position)
 
         if end is None:
