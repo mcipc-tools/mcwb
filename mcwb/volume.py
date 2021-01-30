@@ -2,7 +2,7 @@ from mcipc.rcon.enumerations import Item
 from mcipc.rcon.errors import InvalidArgument
 from mcipc.rcon.je import Client
 
-from mcwb import Anchor, Anchor3, Direction, Vec3, mktunnel
+from mcwb import Anchor, Anchor3, Anchor3Face, Direction, Vec3, mktunnel
 
 __all__ = ['Volume']
 
@@ -29,15 +29,15 @@ class Volume:
         if end is None:
             size = Vec3(*size)
             offset = Vec3(0, 0, 0)
-            if anchor.value in Anchor3.TOP.value:
+            if anchor in Anchor3Face.TOP:
                 offset += Vec3(0, 1 - size.y, 0)
-            if anchor.value in Anchor3.SOUTH.value:
+            if anchor in Anchor3Face.SOUTH:
                 offset += Vec3(0, 0, 1 - size.z)
-            if anchor.value in Anchor3.EAST.value:
+            if anchor in Anchor3Face.EAST:
                 offset += Vec3(1 - size.x, 0, 0)
-            if anchor.value in Anchor3.MIDDLE_FACE.value:
+            if anchor in Anchor3Face.MIDDLE:
                 offset -= Vec3(int(size.x / 2), 0, int(size.z / 2))
-            elif anchor.value == Anchor3.MIDDLE.value:
+            elif anchor is Anchor3.MIDDLE:
                 offset = Vec3(-1, -1, -1) * (size / 2).with_ints()
 
             self.start = position + offset

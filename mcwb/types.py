@@ -51,17 +51,26 @@ class Anchor3(Enum):
     TOP_NE = "top_ne"
     TOP_SE = "top_se"
 
-    # Groupings
-    TOP = (TOP_SW, TOP_NW, TOP_NE, TOP_SE, TOP_MIDDLE)
-    BOTTOM = (BOTTOM_SW, BOTTOM_NW, BOTTOM_NE, BOTTOM_SE)
-    MIDDLE_FACE = CENTER_FACE = CENTRE_FACE = (BOTTOM_MIDDLE, TOP_MIDDLE)
-    NORTH = (TOP_NW, TOP_NE, BOTTOM_NW, BOTTOM_NE)
-    SOUTH = (TOP_SW, TOP_SE, BOTTOM_SW, BOTTOM_SE)
-    EAST = (TOP_NE, TOP_SE, BOTTOM_NE, BOTTOM_SE)
-    WEST = (TOP_SW, TOP_NW, BOTTOM_SW, BOTTOM_NW)
-
     def __str__(self):
         return f'{self.value}'
+
+
+# Groupings of Anchor3
+class Anchor3Face:
+    TOP = {Anchor3.TOP_SW, Anchor3.TOP_NW, Anchor3.TOP_NE,
+           Anchor3.TOP_SE, Anchor3.TOP_MIDDLE}
+    BOTTOM = {Anchor3.BOTTOM_SW, Anchor3.BOTTOM_NW,
+              Anchor3.BOTTOM_NE, Anchor3.BOTTOM_SE}
+    MIDDLE = CENTER = CENTRE = {Anchor3.BOTTOM_MIDDLE,
+                                Anchor3.TOP_MIDDLE}
+    NORTH = {Anchor3.TOP_NW, Anchor3.TOP_NE,
+             Anchor3.BOTTOM_NW, Anchor3.BOTTOM_NE}
+    SOUTH = {Anchor3.TOP_SW, Anchor3.TOP_SE,
+             Anchor3.BOTTOM_SW, Anchor3.BOTTOM_SE}
+    EAST = {Anchor3.TOP_NE, Anchor3.TOP_SE,
+            Anchor3.BOTTOM_NE, Anchor3.BOTTOM_SE}
+    WEST = {Anchor3.TOP_SW, Anchor3.TOP_NW,
+            Anchor3.BOTTOM_SW, Anchor3.BOTTOM_NW}
 
 
 class Vec3(NamedTuple):
