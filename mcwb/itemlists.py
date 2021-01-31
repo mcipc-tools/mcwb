@@ -9,21 +9,24 @@ import codecs
 import json
 import re
 from pathlib import Path
-from typing import Union, cast
+from typing import Union
 
 import numpy as np
 from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
 
-from mcwb import Cuboid, Profile, Vec3, Volume, Items
+from mcwb import Cuboid, Vec3, Volume, Items
 from mcwb.functions import validate
 
 
-def save(items: Items, filename: Path) -> None:
-    """ save a Profile or Cuboid (or Row) to a json file """
+def save_items(items: Items, filename: Path) -> None:
+    """ save a Profile, Cuboid or Row to a json file """
 
     def json_item(item: Item):
         return {"__Item__": item.value}
+
+    if validate(items) == 0:
+        raise ValueError("items is not a valid Row, Profile or Cuboid")
 
     json.dump(
         items,
@@ -35,24 +38,8 @@ def save(items: Items, filename: Path) -> None:
     )
 
 
-def load_cuboid(filename: Union[Path, str]):
-    """ load a cuboid from a json file """
-    cuboid = cast(Cuboid, load(filename))
-    if not validate_cuboid(cuboid):
-        raise ValueError(f"file {filename} does not contain a valid cuboid")
-    return cuboid
-
-
-def load_profile(filename: Union[Path, str]) -> Profile:
-    """ load a profile from a json file """
-    profile = cast(Profile, load(filename))
-    if not validate(profile):
-        raise ValueError(f"file {filename} does not contain a valid profile")
-    return profile
-
-
-def load(filename: Union[Path, str]) -> Items:
-    """ load a nested list of Item from json file """
+def load_items(filename: Union[Path, str], dimensions: int = None) -> Items:
+    """ load a JSON file of Items - returns a Cuboid, Profile or Row"""
 
     def as_item(d):
         if "__Item__" in d:
@@ -60,10 +47,19 @@ def load(filename: Union[Path, str]) -> Items:
         else:
             return d
 
-    """ load a previously saved json file - returns a Cuboid, Profile or Row"""
     result = json.load(
         codecs.open(str(filename), "r", encoding="utf-8"), object_hook=as_item
     )
+    valid_dims = validate(result)
+
+    if valid_dims == 0:
+        raise ValueError("file {filename} contains invalid JSON")
+    elif dimensions is not None and valid_dims != dimensions:
+        raise ValueError(
+            "file {filename} contains {valid_dims} dimension Items"
+            "but {dimensions} dimensions was requested"
+            )
+
     return result
 
 
@@ -76,6 +72,8 @@ def grab(client: Client, vol: Volume) -> Cuboid:
     ncube = np.ndarray(vol.size, dtype=Item)
 
     for idx, _ in np.ndenumerate(ncube):
+        # currently the only way to test for a block is to use the loot spawn
+        # command, this creates an entity at 0, 0, 0 that falls into the void
         output = client.loot.spawn(dump).mine(vol.start + Vec3(*idx))
         match = extract_item.search(output)
         if not match:
