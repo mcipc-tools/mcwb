@@ -19,11 +19,14 @@ from mcwb import Cuboid, Vec3, Volume, Items
 from mcwb.functions import validate
 
 
+ITEM_KEY = "__Item__"
+
+
 def save_items(items: Items, filename: Path) -> None:
     """ save a Profile, Cuboid or Row to a json file """
 
     def json_item(item: Item):
-        return {"__Item__": item.value}
+        return {ITEM_KEY: item.value}
 
     if validate(items) == 0:
         raise ValueError("items is not a valid Row, Profile or Cuboid")
@@ -42,8 +45,8 @@ def load_items(filename: Union[Path, str], dimensions: int = None) -> Items:
     """ load a JSON file of Items - returns a Cuboid, Profile or Row"""
 
     def as_item(d):
-        if "__Item__" in d:
-            return Item(d["__Item__"])
+        if ITEM_KEY in d:
+            return Item(d[ITEM_KEY])
         else:
             return d
 
