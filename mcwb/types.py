@@ -55,13 +55,14 @@ class Anchor3(Enum):
         return f'{self.value}'
 
 
-# Groupings of Anchor3
 class Anchor3Face:
+    """Groupings of Anchor3 based on which face of the volume they inhabit"""
+
     TOP = {Anchor3.TOP_SW, Anchor3.TOP_NW, Anchor3.TOP_NE,
            Anchor3.TOP_SE, Anchor3.TOP_MIDDLE}
     BOTTOM = {Anchor3.BOTTOM_SW, Anchor3.BOTTOM_NW,
               Anchor3.BOTTOM_NE, Anchor3.BOTTOM_SE}
-    # middle of top or bottom
+    # middle of top or bottom face
     MIDDLE_FACE = CENTER_FACE = CENTRE_FACE = {Anchor3.BOTTOM_MIDDLE,
                                                Anchor3.TOP_MIDDLE}
     NORTH = {Anchor3.TOP_NW, Anchor3.TOP_NE,
