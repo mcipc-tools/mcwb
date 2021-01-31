@@ -112,27 +112,28 @@ class Volume:
         self,
         client: Client,
         block: Item,
+        *,
         thickness: int = 1,
         top: bool = True,
         bottom: bool = True,
-        n: bool = True,
-        s: bool = True,
-        e: bool = True,
-        w: bool = True,
+        north: bool = True,
+        south: bool = True,
+        east: bool = True,
+        west: bool = True,
     ) -> None:
-        """ renders walls around the volume """
+        """ renders walls at the faces of the volume """
         t = thickness - 1
         b = block.value
-        if n:
+        if north:
             client.fill(self.start, Vec3(
                 self.end.x, self.end.y, self.start.z + t), b)
-        if s:
+        if south:
             client.fill(self.end, Vec3(
                 self.start.x, self.start.y, self.end.z - t), b)
-        if w:
+        if west:
             client.fill(self.start, Vec3(
                 self.start.x + t, self.end.y, self.end.z), b)
-        if e:
+        if east:
             client.fill(self.end, Vec3(self.end.x - t,
                                        self.start.y, self.start.z), b)
         if top:
