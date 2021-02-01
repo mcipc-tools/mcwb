@@ -10,7 +10,10 @@ from mcipc.rcon.enumerations import Item
 
 __all__ = [
     'Anchor',
+    'Anchor3',
+    'Cuboid',
     'Direction',
+    'Items',
     'Number',
     'Offset',
     'Offsets',
@@ -31,6 +34,36 @@ class Anchor(Enum):
     BOTTOM_LEFT = 'bottom_left'
     BOTTOM_RIGHT = 'bottom_right'
     MIDDLE = CENTER = CENTRE = 'middle'
+
+
+class Anchor3(Enum):
+    """Anchor point for cuboids."""
+
+    MIDDLE = CENTER = CENTRE = "middle"
+    BOTTOM_MIDDLE = BOTTOM_CENTER = BOTTOM_CENTRE = "bottom_middle"
+    TOP_MIDDLE = TOP_CENTER = TOP_CENTRE = "top_middle"
+
+    BOTTOM_SW = "bottom_sw"
+    BOTTOM_NW = "bottom_nw"
+    BOTTOM_NE = "bottom_ne"
+    BOTTOM_SE = "bottom_se"
+
+    TOP_SW = "top_sw"
+    TOP_NW = "top_nw"
+    TOP_NE = "top_ne"
+    TOP_SE = "top_se"
+
+    # Groupings
+    TOP = (TOP_SW, TOP_NW, TOP_NE, TOP_SE, TOP_MIDDLE)
+    BOTTOM = (BOTTOM_SW, BOTTOM_NW, BOTTOM_NE, BOTTOM_SE)
+    MIDDLE_FACE = CENTER_FACE = CENTRE_FACE = (BOTTOM_MIDDLE, TOP_MIDDLE)
+    NORTH = (TOP_NW, TOP_NE, BOTTOM_NW, BOTTOM_NE)
+    SOUTH = (TOP_SW, TOP_SE, BOTTOM_SW, BOTTOM_SE)
+    EAST = (TOP_NE, TOP_SE, BOTTOM_NE, BOTTOM_SE)
+    WEST = (TOP_SW, TOP_NW, BOTTOM_SW, BOTTOM_NW)
+
+    def __str__(self):
+        return f'{self.value}'
 
 
 class Vec3(NamedTuple):
@@ -185,7 +218,11 @@ class Direction(Enum):
     NORTH = Vec3(0, 0, -1)
 
 
-Row = List[Union[Item, None]]
+Row = List[Item]
 Profile = List[Row]
+Cuboid = List[Profile]
+
+Items = Union[Cuboid, Profile, Row]
+
 Offset = Tuple[Item, Vec3]
 Offsets = Iterator[Offset]

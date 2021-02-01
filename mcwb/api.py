@@ -21,7 +21,7 @@ def mktunnel(client: Client, profile: Profile, start: Vec3, *,
 
     start = Vec3(*start)    # Ensure Vec3 object.
 
-    if not validate(profile):
+    if validate(profile) != 2:
         raise ValueError('Invalid matrix.')
 
     if end is None:
