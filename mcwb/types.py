@@ -11,7 +11,9 @@ from mcipc.rcon.enumerations import Item
 __all__ = [
     'Anchor',
     'Anchor3',
+    'Cuboid',
     'Direction',
+    'Items',
     'Number',
     'Offset',
     'Offsets',
@@ -227,7 +229,11 @@ class Direction(Enum):
     NORTH = Vec3(0, 0, -1)
 
 
-Row = List[Union[Item, None]]
+Row = List[Item]
 Profile = List[Row]
+Cuboid = List[Profile]
+
+Items = Union[Cuboid, Profile, Row]
+
 Offset = Tuple[Item, Vec3]
 Offsets = Iterator[Offset]

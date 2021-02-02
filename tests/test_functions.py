@@ -5,7 +5,6 @@ from itertools import product
 from unittest import TestCase
 
 from mcipc.rcon.enumerations import Item
-
 from mcwb.functions import get_direction, normalize, offsets, validate
 from mcwb.types import Anchor, Direction, Vec3
 
@@ -432,9 +431,20 @@ class TestValidate(TestCase):
             [Item.AIR, Item.AIR, Item.AIR],
             [Item.BLUE_CONCRETE, Item.AIR, Item.YELLOW_CONCRETE],
         ]
+        self.valid_cuboid = [self.valid_profile, self.valid_profile]
+        self.invalid_cuboid1 = [self.invalid_profile1, self.invalid_profile1]
+        self.valid_row = [Item.RED_CONCRETE, Item.AIR, Item.GREEN_CONCRETE]
+        self.invalid_row1 = [Item.RED_CONCRETE, self.valid_profile]
 
     def test_validate(self):
         """Tests the validation of the profiles."""
-        self.assertTrue(validate(self.valid_profile))
-        self.assertFalse(validate(self.invalid_profile1))
-        self.assertFalse(validate(self.invalid_profile2))
+        self.assertEqual(validate(self.valid_profile), 2)
+        self.assertEqual(validate(self.invalid_profile1), 0)
+        self.assertEqual(validate(self.invalid_profile2), 0)
+        self.assertEqual(validate(self.invalid_cuboid1), 0)
+
+        self.assertEqual(validate(self.valid_cuboid), 3)
+        self.assertEqual(validate(self.invalid_cuboid1), 0)
+
+        self.assertEqual(validate(self.valid_row), 1)
+        self.assertEqual(validate(self.invalid_row1), 0)

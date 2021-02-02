@@ -2,10 +2,11 @@
 
 from typing import Iterator
 
+import numpy as np
 from mcipc.rcon.enumerations import Item
 
-from mcwb.types import Anchor, Direction, Number, Offsets, Profile, Row, Vec3
-
+from mcwb.types import (Anchor, Direction, Items, Number, Offsets,
+                        Profile, Row, Vec3)
 
 __all__ = ['get_direction', 'normalize', 'offsets', 'validate']
 
@@ -77,14 +78,18 @@ def offsets(profile: Profile, direction: Vec3, anchor: Anchor) -> Offsets:
             yield (block, vec3)
 
 
-def validate(profile: Profile) -> bool:
-    """Validates a profile to have rows with equal length."""
+def validate(items: Items):
+    """
+    Validates a row, profile or cuboid, ensuring consistent dimensions
+    """
+    ragged = False
 
-    rows = iter(profile)
+    # np ragged array is deprecated but only supplys a warning currently
+    with np.warnings.catch_warnings(record=True) as w:
+        np.warnings.simplefilter("always")
+        narray = np.array(items)
+        if w and 'ragged nested' in str(w[-1].message):
+            ragged = True
 
-    try:
-        first = len(next(rows))
-    except StopIteration:
-        return True
-
-    return all(len(row) == first for row in rows)
+    dims = int(narray.ndim) if narray.dtype == Item and not ragged else 0
+    return dims
