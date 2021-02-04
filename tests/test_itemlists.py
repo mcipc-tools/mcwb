@@ -1,3 +1,4 @@
+"""Tests for mcwb.itemlists unit."""
 
 import shutil
 import tempfile
