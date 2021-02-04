@@ -58,32 +58,32 @@ class TestItemLists(TestCase):
 
     def test_save_row(self):
         """Tests the saving of rows."""
-        p = self.test_dir / "row_test.json"
-        save_items(self.blue_row, p)
-        items = load_items(p, 1)
+        path = self.test_dir / "row_test.json"
+        save_items(self.blue_row, path)
+        items = load_items(path, 1)
 
         self.assertEqual(items, self.blue_row)
 
     def test_save_profile(self):
         """Tests the saving of profiles."""
-        p = self.test_dir / "row_profile.json"
-        save_items(self.middle_profile, p)
-        items = load_items(p, 2)
+        path = self.test_dir / "row_profile.json"
+        save_items(self.middle_profile, path)
+        items = load_items(path, 2)
 
         self.assertEqual(items, self.middle_profile)
 
     def test_save_cuboid(self):
         """Tests the saving of cuboids."""
-        p = self.test_dir / "row_cuboid.json"
-        save_items(self.cube, p)
-        items = load_items(p, 3)
+        path = self.test_dir / "row_cuboid.json"
+        save_items(self.cube, path)
+        items = load_items(path, 3)
 
         self.assertEqual(items, self.cube)
 
         # validate failed dimension check
         with self.assertRaises(ValueError):
-            load_items(p, 2)
+            load_items(path, 2)
 
         # validate the 'any dimensions' call to load_items
-        items = load_items(p)
+        items = load_items(path)
         self.assertEqual(items, self.cube)
