@@ -53,7 +53,7 @@ class TestItemLists(TestCase):
         ]
 
     def tearDown(self):
-        # Remove the directory after the test
+        """Remove the directory after the test."""
         shutil.rmtree(str(self.test_dir))
 
     def test_save_row(self):
