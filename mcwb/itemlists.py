@@ -44,11 +44,11 @@ def save_items(items: Items, filename: Path) -> None:
 def load_items(filename: Union[Path, str], dimensions: int = None) -> Items:
     """ load a JSON file of Items - returns a Cuboid, Profile or Row"""
 
-    def as_item(d):
-        if ITEM_KEY in d:
-            return Item(d[ITEM_KEY])
+    def as_item(dct: dict):
+        if ITEM_KEY in dct:
+            return Item(dct[ITEM_KEY])
 
-        return d
+        return dct
 
     result = json.load(
         codecs.open(str(filename), "r", encoding="utf-8"), object_hook=as_item
