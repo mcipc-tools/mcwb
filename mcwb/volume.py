@@ -1,3 +1,5 @@
+"""Representation of 3D spaces."""
+
 from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
 
