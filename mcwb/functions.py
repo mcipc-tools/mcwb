@@ -91,5 +91,4 @@ def validate(items: Items):
         if warning and 'ragged nested' in str(warning[-1].message):
             ragged = True
 
-    dims = int(narray.ndim) if narray.dtype == Item and not ragged else 0
-    return dims
+    return int(narray.ndim) if narray.dtype == Item and not ragged else 0
