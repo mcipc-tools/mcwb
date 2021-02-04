@@ -1,13 +1,5 @@
 [![Documentation Status](https://readthedocs.org/projects/mcwb/badge/?version=latest)](https://mcwb.readthedocs.io/en/latest/?badge=latest)
-[![Bugs](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcwb&metric=bugs)](https://sonarqube.richard-neumann.de/dashboard?id=mcwb)
-[![Code Smells](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcwb&metric=code_smells)](https://sonarqube.richard-neumann.de/dashboard?id=mcwb)
-[![Lines of Code](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcwb&metric=ncloc)](https://sonarqube.richard-neumann.de/dashboard?id=mcwb)
-[![Maintainability Rating](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcwb&metric=sqale_rating)](https://sonarqube.richard-neumann.de/dashboard?id=mcwb)
 [![Quality Gate Status](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcwb&metric=alert_status)](https://sonarqube.richard-neumann.de/dashboard?id=mcwb)
-[![Reliability Rating](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcwb&metric=reliability_rating)](https://sonarqube.richard-neumann.de/dashboard?id=mcwb)
-[![Security Rating](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcwb&metric=security_rating)](https://sonarqube.richard-neumann.de/dashboard?id=mcwb)
-[![Technical Debt](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcwb&metric=sqale_index)](https://sonarqube.richard-neumann.de/dashboard?id=mcwb)
-[![Vulnerabilities](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcwb&metric=vulnerabilities)](https://sonarqube.richard-neumann.de/dashboard?id=mcwb)
 
 # mcwb
 A Minecraft world builder library.
