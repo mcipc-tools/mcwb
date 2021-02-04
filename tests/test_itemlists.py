@@ -79,7 +79,7 @@ class TestItemLists(TestCase):
 
         # validate failed dimension check
         with self.assertRaises(ValueError):
-            items = load_items(p, 2)
+            load_items(p, 2)
 
         # validate the 'any dimensions' call to load_items
         items = load_items(p)
