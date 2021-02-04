@@ -84,4 +84,3 @@ class TestItemLists(TestCase):
         # validate the 'any dimensions' call to load_items
         items = load_items(p)
         self.assertEqual(items, self.cube)
-
