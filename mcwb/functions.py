@@ -85,10 +85,10 @@ def validate(items: Items):
     ragged = False
 
     # np ragged array is deprecated but only supplys a warning currently
-    with np.warnings.catch_warnings(record=True) as w:
+    with np.warnings.catch_warnings(record=True) as warning:
         np.warnings.simplefilter("always")
         narray = np.array(items)
-        if w and 'ragged nested' in str(w[-1].message):
+        if warning and 'ragged nested' in str(warning[-1].message):
             ragged = True
 
     dims = int(narray.ndim) if narray.dtype == Item and not ragged else 0
