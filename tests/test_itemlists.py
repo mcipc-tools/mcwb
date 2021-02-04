@@ -9,7 +9,7 @@ from mcipc.rcon.item import Item
 from mcwb.itemlists import load_items, save_items
 
 
-class TestItemLists(TestCase):
+class TestItemLists(TestCase):  # pylint: disable=R0902
     """Tests saving and loading lists of Items"""
 
     def setUp(self):
