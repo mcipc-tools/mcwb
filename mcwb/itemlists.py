@@ -47,8 +47,8 @@ def load_items(filename: Union[Path, str], dimensions: int = None) -> Items:
     def as_item(d):
         if ITEM_KEY in d:
             return Item(d[ITEM_KEY])
-        else:
-            return d
+
+        return d
 
     result = json.load(
         codecs.open(str(filename), "r", encoding="utf-8"), object_hook=as_item
