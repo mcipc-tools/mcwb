@@ -1,5 +1,6 @@
 """Representation of 3D spaces."""
 
+from __future__ import annotations
 from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
 
@@ -29,7 +30,7 @@ class Volume:
         self.position = Vec3(0, 0, 0)  # the positon of the anchor point
 
     @classmethod
-    def from_anchor(cls, position: Vec3, size: Vec3, anchor: Anchor3) -> "Volume":
+    def from_anchor(cls, position: Vec3, size: Vec3, anchor: Anchor3) -> Volume:
         """ a factory function to create a Volume using anchor and size """
         volume = Volume()
         volume.position = Vec3(*position)
@@ -54,7 +55,7 @@ class Volume:
         return volume
 
     @classmethod
-    def from_corners(cls, start: Vec3, end: Vec3) -> "Volume":
+    def from_corners(cls, start: Vec3, end: Vec3) -> Volume:
         """ a factory function to define Volume using opposite corners """
         volume = Volume()
         start = Vec3(*start)
