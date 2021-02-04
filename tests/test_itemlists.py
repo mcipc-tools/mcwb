@@ -1,5 +1,4 @@
 
-from mcwb.types import Cuboid
 import shutil
 import tempfile
 from pathlib import Path
