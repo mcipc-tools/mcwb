@@ -57,7 +57,8 @@ def load_items(filename: Union[Path, str], dimensions: int = None) -> Items:
 
     if valid_dims == 0:
         raise ValueError("file {filename} contains invalid JSON")
-    elif dimensions is not None and valid_dims != dimensions:
+
+    if dimensions is not None and valid_dims != dimensions:
         raise ValueError(
             "file {filename} contains {valid_dims} dimension Items"
             "but {dimensions} dimensions was requested"
