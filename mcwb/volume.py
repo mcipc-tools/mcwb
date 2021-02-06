@@ -101,7 +101,7 @@ class Volume:
         if self.size.volume < MAX_MINECRAFT_FILL_COMMAND:
             client.fill(self.start, self.end, block.value)
         else:
-            profile = [[block.value] * int(self.size.x)] * int(self.size.y)
+            profile = [[block] * int(self.size.x)] * int(self.size.y)
             mktunnel(
                 client,
                 profile,
