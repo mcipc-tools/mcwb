@@ -229,6 +229,15 @@ class Direction(Enum):
     NORTH = Vec3(0, 0, -1)
 
 
+class Planes3d(Enum):
+    """
+    Represents all 3 planes in a 3d space as a pair of
+    dimension indeces as used in np.array: 0=X 1=Y 2=Z """
+    XY = (0, 1)
+    XZ = (0, 2)
+    YZ = (1, 2)
+
+
 Row = List[Item]
 Profile = List[Row]
 Cuboid = List[Profile]

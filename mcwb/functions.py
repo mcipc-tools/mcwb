@@ -92,3 +92,33 @@ def validate(items: Items):
             ragged = True
 
     return int(narray.ndim) if narray.dtype == Item and not ragged else 0
+
+
+def shift(arr: np.ndarray, vec: Vec3, fill: Item = Item.AIR) -> np.ndarray:
+    """ shift a 3d array of Item by vec, discarding the cells that are
+        shifted out and filling the new space with Item fill
+    """
+
+    # this is the fastest approach in python, see 1d Benchmark at
+    # https://stackoverflow.com/questions/30399534/shift-elements-in-a-numpy-array
+    result: np.ndarray = np.array(np.full_like(arr, fill), dtype=Item)
+    if vec.y > 0:
+        result[:, : vec.y, :] = fill
+        result[:, vec.y:, :] = arr[:, : -vec.y, :]
+    elif vec.y < 0:
+        result[:, vec.y:, :] = fill
+        result[:, : vec.y, :] = arr[:, -vec.y:, :]
+    if vec.x > 0:
+        result[: vec.x, :, :] = fill
+        result[vec.x:, :, :] = arr[: -vec.x, :, :]
+    elif vec.x < 0:
+        result[vec.x:, :, :] = fill
+        result[: vec.x, :, :] = arr[-vec.x:, :, :]
+    if vec.z > 0:
+        result[:, :, : vec.z:] = fill
+        result[:, :, vec.z:] = arr[:, :, : -vec.z]
+    elif vec.z < 0:
+        result[:, :, vec.z:] = fill
+        result[:, :, : vec.z] = arr[:, :, -vec.z:]
+
+    return result
