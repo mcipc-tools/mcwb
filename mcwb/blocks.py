@@ -5,7 +5,7 @@ import numpy as np
 from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
 from mcwb import Anchor3, Vec3, Volume
-from mcwb.types import Items, Planes3d
+from mcwb.types import Cuboid, Items, Planes3d
 
 from mcwb.functions import shift
 
@@ -43,7 +43,7 @@ class Blocks:
             self._render()
 
     def _render(self) -> None:
-        """ render the cuboid's blocks into Minecraft """
+        """ render the blocks into Minecraft """
         for idx, block in np.ndenumerate(self.ncube):
             if self._solid[idx]:
                 self._client.setblock(self.volume.start + Vec3(*idx), block)
@@ -59,10 +59,10 @@ class Blocks:
                 self._client.setblock(old_start + Vec3(*idx), Item.AIR.value)
 
     def rotate(self, plane: Planes3d, steps: int = 1, clear=True) -> None:
-        """ rotate the blocks in the cuboid in place """
+        """ rotate the blocks in place """
         self.ncube = np.rot90(self.ncube, k=steps, axes=plane.value)
 
-        if clear:  # TODO implement unrender for rotated cuboid (challenging?)
+        if clear:  # TODO implement unrender for rotated blocks (challenging?)
             self.volume.fill(self._client)
 
         self._solid = self.ncube != Item.AIR
@@ -94,3 +94,7 @@ class Blocks:
 
         if clear:
             old_volume.fill(self._client)
+
+    def to_cuboid(self) -> Cuboid:
+        """ return the blocks' contents as a Cuboid """
+        return self.ncube.tolist()
