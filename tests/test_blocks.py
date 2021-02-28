@@ -44,5 +44,3 @@ class TestRotation(TestCase):
         rotated = load_items(cubes_dir / "RGBrotateYZ1.cube")
 
         self.assertTrue(self.client.compare(self.start, rotated))
-
-
