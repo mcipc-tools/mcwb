@@ -155,7 +155,8 @@ class Vec3(NamedTuple):
 
     def with_ints(self):
         """Coerce all coordinates to int."""
-        return type(self)(int(self.x), int(self.y), int(self.z))
+        # floor is consistent with minecraft's handling of negative coords
+        return type(self)(floor(self.x), floor(self.y), floor(self.z))
 
     @property
     def volume(self):
