@@ -1,13 +1,12 @@
 [![Documentation Status](https://readthedocs.org/projects/mcwb/badge/?version=latest)](https://mcwb.readthedocs.io/en/latest/?badge=latest)
-[![Quality Gate Status](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcwb&metric=alert_status)](https://sonarqube.richard-neumann.de/dashboard?id=mcwb)
-
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gilesknap_mcwb&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gilesknap_mcwb)
 [![GitHub CI](https://github.com/conqp/mcwb/actions/workflows/code.yml/badge.svg)](https://github.com/conqp/mcwb/actions/workflows/code.yml) [![PyPI version](https://badge.fury.io/py/mcwb.svg)](https://badge.fury.io/py/mcwb)
-
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f371a10591e6412a8009591e1bab74d5)](https://www.codacy.com/gh/gilesknap/mcwb/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gilesknap/mcwb&amp;utm_campaign=Badge_Grade)
 # mcwb
 A Minecraft world builder library.
 
 ## Requirements
-`mcwb` requires Python 3.8 or higher. It also depends on [mcipc](https://github.com/conqp/mcipc).
+`mcwb` requires Python 3.9 or higher. It also depends on [mcipc](https://github.com/conqp/mcipc).
 If you install `mcwb` via `pip`, it will automatically be installed as a dependency.
 
 ## Documentation
@@ -20,7 +19,7 @@ Install mcwb from the [AUR](https://aur.archlinux.org/packages/python-mcwb/) or 
     pip install mcwb
 
 ## Credits
-Many thanks to all contributers to the [Minecraft Wiki](https://minecraft.gamepedia.com/) and the [Wiki.vg](https://wiki.vg/Main_Page).
+Many thanks to all contributors to the [Minecraft Wiki](https://minecraft.gamepedia.com/) and the [Wiki.vg](https://wiki.vg/Main_Page).
 
 ## License
 Copyright (C) 2018-2021 Richard Neumann <mail at richard dash neumann period de>
