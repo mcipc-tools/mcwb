@@ -33,7 +33,7 @@ jobs:
       - name: Install Python Dependencies
         run: |
           pip install --upgrade build
-          pip install -e . .[dev]
+          pip install -e .[dev]
           pip freeze # dump installed packages for debugging
 
       - name: Create Sdist and Wheel
