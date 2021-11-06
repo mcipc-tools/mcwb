@@ -1,11 +1,12 @@
-from typing import cast
-from mcwb.types import Planes3d, Vec3
 from pathlib import Path
+from typing import cast
 from unittest import TestCase
 
-from mcwb.blocks import Blocks
 from mcipc.rcon import Client
+
+from mcwb.blocks import Blocks
 from mcwb.itemlists import load_items
+from mcwb.types import Planes3d, Vec3
 from tests.mockclient import MockClient
 
 cubes_dir = Path(__file__).parent / "cubes"

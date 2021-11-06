@@ -1,7 +1,7 @@
 from itertools import product
 from unittest import TestCase
 
-from mcwb import Volume, Anchor3, Vec3
+from mcwb import Anchor3, Vec3, Volume
 
 
 class TestVolume(TestCase):

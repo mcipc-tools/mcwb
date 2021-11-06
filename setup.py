@@ -1,21 +1,16 @@
 #! /usr/bin/env python
 """Installation script."""
 
+# type: ignore
+import glob
+import importlib.util
+
 from setuptools import setup
 
-setup(
-    name='mcwb',
-    use_scm_version=True,
-    setup_requires=['setuptools_scm'],
-    author='Richard Neumann',
-    author_email='mail@richard-neumann.de',
-    python_requires='>=3.8',
-    packages=['mcwb'],
-    install_requires=['mcipc'],
-    url='https://github.com/conqp/mcwb',
-    license='GPLv3',
-    description='A Minecraft world builder library.',
-    long_description=open('README.md').read(),
-    long_description_content_type="text/markdown",
-    keywords='minecraft world builder python rcon'
-)
+# Import <package>._version_git.py without importing <package>
+path = glob.glob(__file__.replace("setup.py", "*/_version_git.py"))[0]
+spec = importlib.util.spec_from_file_location("_version_git", path)
+vg = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(vg)
+
+setup(cmdclass=vg.get_cmdclass(), version=vg.__version__)

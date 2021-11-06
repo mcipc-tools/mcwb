@@ -1,11 +1,13 @@
 [![Documentation Status](https://readthedocs.org/projects/mcwb/badge/?version=latest)](https://mcwb.readthedocs.io/en/latest/?badge=latest)
 [![Quality Gate Status](https://sonarqube.richard-neumann.de/api/project_badges/measure?project=mcwb&metric=alert_status)](https://sonarqube.richard-neumann.de/dashboard?id=mcwb)
 
+[![GitHub CI](https://github.com/conqp/mcwb/actions/workflows/code.yml/badge.svg)](https://github.com/conqp/mcwb/actions/workflows/code.yml) [![PyPI version](https://badge.fury.io/py/mcwb.svg)](https://badge.fury.io/py/mcwb)
+
 # mcwb
 A Minecraft world builder library.
 
 ## Requirements
-`mcwb` requires Python 3.8 or higher. It also depends on [mcipc](https://github.com/conqp/mcipc).  
+`mcwb` requires Python 3.8 or higher. It also depends on [mcipc](https://github.com/conqp/mcipc).
 If you install `mcwb` via `pip`, it will automatically be installed as a dependency.
 
 ## Documentation
