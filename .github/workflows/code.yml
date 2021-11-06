@@ -32,7 +32,8 @@ jobs:
 
       - name: Install Python Dependencies
         run: |
-          pip install --user --upgrade -e.[dev]
+          pip install --upgrade build
+          pip install -e . .[dev]
           pip freeze # dump installed packages for debugging
 
       - name: Create Sdist and Wheel
@@ -40,8 +41,6 @@ jobs:
         # Set SOURCE_DATE_EPOCH from git commit for reproducible build
         # https://reproducible-builds.org/
         run: |
-          chmod -R g+w .
-          umask 0002
           SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct) python -m build --sdist --wheel
 
       - name: Run Tests
