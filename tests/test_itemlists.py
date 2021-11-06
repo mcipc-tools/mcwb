@@ -6,6 +6,7 @@ from pathlib import Path
 from unittest import TestCase
 
 from mcipc.rcon.item import Item
+
 from mcwb.itemlists import load_items, save_items
 
 

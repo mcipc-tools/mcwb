@@ -5,6 +5,7 @@ from itertools import product
 from unittest import TestCase
 
 from mcipc.rcon.enumerations import Item
+
 from mcwb.functions import get_direction, normalize, offsets, validate
 from mcwb.types import Anchor, Direction, Vec3
 

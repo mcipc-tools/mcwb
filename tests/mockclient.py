@@ -2,11 +2,12 @@
 A mock client for testing functions that call the minecraft server.
 This mocks a world of 100 blocks square with origin in the middle.
 """
+from math import floor
+
+import numpy as np
+from mcipc.rcon.enumerations import Item
 
 from mcwb.types import Items, Vec3
-import numpy as np
-
-from mcipc.rcon.enumerations import Item
 
 
 class MockClient:
@@ -26,7 +27,9 @@ class MockClient:
         block = Item(block)  # ensure enum
         start -= self.offset
         end -= self.offset - 1
-        self.world[start.x:end.x, start.y:end.y, start.z:end.z] = block
+        self.world[floor(start.x):floor(end.x),
+                   floor(start.y):floor(end.y),
+                   floor(start.z):floor(end.z)] = block
 
     # the following are additional functions for use in tests
 
