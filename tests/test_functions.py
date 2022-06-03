@@ -68,7 +68,7 @@ class TestOffsets(TestCase):
             [Item.AIR, Item.AIR, Item.AIR],
             [Item.BLUE_CONCRETE, Item.AIR, Item.YELLOW_CONCRETE],
         ]
-        self.directions = Direction
+        self.directions = Direction.all
         self.anchors = Anchor
         self.results = [
             [

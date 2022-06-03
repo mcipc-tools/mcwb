@@ -1,12 +1,12 @@
 """Builder data types."""
 
 from __future__ import annotations
+
 from enum import Enum
 from math import ceil, floor, sqrt
 from typing import Iterator, List, NamedTuple, Tuple, Union
 
 from mcipc.rcon.enumerations import Item
-
 
 __all__ = [
     'Anchor',
@@ -219,21 +219,33 @@ class Vec3(NamedTuple):
         return self.y > 0
 
 
-class Direction(Enum):
+class Direction:
     """Available directions."""
 
-    EAST = Vec3(+1, 0, 0)
+    # the cardinals match the order of entity data 'Rotation'
+    SOUTH = Vec3(0, 0, +1)
     WEST = Vec3(-1, 0, 0)
+    NORTH = Vec3(0, 0, -1)
+    EAST = Vec3(+1, 0, 0)
     UP = Vec3(0, +1, 0)
     DOWN = Vec3(0, -1, 0)
-    SOUTH = Vec3(0, 0, +1)
-    NORTH = Vec3(0, 0, -1)
+
+    @classmethod
+    @property
+    def all(cls) -> List[Vec3]:
+        all = filter(lambda val: type(val) is Vec3, vars(cls).values())
+        return list(all)
+
+    @classmethod
+    @property
+    def cardinals(cls) -> List[Vec3]:
+        return list(cls.all[:-2])
 
 
 class Planes3d(Enum):
     """
     Represents all 3 planes in a 3d space as a pair of
-    dimension indeces as used in np.array: 0=X 1=Y 2=Z """
+    dimension indices as used in np.array: 0=X 1=Y 2=Z """
     XY = (0, 1)
     XZ = (0, 2)
     YZ = (1, 2)

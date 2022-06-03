@@ -47,6 +47,14 @@ def get_direction(start: Vec3, end: Vec3) -> Vec3:
     return end - start
 
 
+def y_rotate(direction: Vec3, clockwise: bool = True) -> Vec3:
+    """rotate a cardinal direction about the y axis"""
+
+    current = Direction.cardinals.index(direction)
+    rotated = current + (1 if clockwise else -1)
+    return Direction.cardinals[rotated % len(Direction.cardinals)]
+
+
 def normalize(profile: Profile, default: Item = Item.AIR) -> Iterator[Row]:
     """Normalizes a profile."""
 
@@ -60,9 +68,6 @@ def offsets(profile: Profile, direction: Vec3, anchor: Anchor) -> Offsets:
     height = len(profile)
     width = len(profile[0])
     x_start = y_start = 0
-
-    if isinstance(direction, Direction):
-        direction = direction.value
 
     if anchor in {Anchor.BOTTOM_LEFT, Anchor.BOTTOM_RIGHT}:
         y_start = height - 1
