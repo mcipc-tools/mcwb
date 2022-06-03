@@ -9,5 +9,4 @@ build
 dist
 pyproject.toml
 .coverage
-
-
+.vscode
