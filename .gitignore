@@ -10,3 +10,7 @@ dist
 pyproject.toml
 .coverage
 .vscode
+.venv
+cov.xml
+
+
