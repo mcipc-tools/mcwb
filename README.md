@@ -1,7 +1,8 @@
 [![Documentation Status](https://readthedocs.org/projects/mcwb/badge/?version=latest)](https://mcwb.readthedocs.io/en/latest/?badge=latest)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mctools_mcwb&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=mctools_mcwb)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mcipc-tools_mcwb&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=mcipc-tools_mcwb)
 [![GitHub CI](https://github.com/conqp/mcwb/actions/workflows/code.yml/badge.svg)](https://github.com/conqp/mcwb/actions/workflows/code.yml) [![PyPI version](https://badge.fury.io/py/mcwb.svg)](https://badge.fury.io/py/mcwb)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/f371a10591e6412a8009591e1bab74d5)](https://www.codacy.com/gh/gilesknap/mcwb/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gilesknap/mcwb&amp;utm_campaign=Badge_Grade)
+
 # mcwb
 A Minecraft world builder library.
 
