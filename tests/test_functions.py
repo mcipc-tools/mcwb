@@ -6,7 +6,7 @@ from unittest import TestCase
 
 from mcipc.rcon.enumerations import Item
 
-from mcwb.functions import get_direction, normalize, offsets, validate
+from mcwb.functions import get_direction, normalize, offsets, validate, y_rotate
 from mcwb.types import Anchor, Direction, Vec3
 
 
@@ -68,229 +68,9 @@ class TestOffsets(TestCase):
             [Item.AIR, Item.AIR, Item.AIR],
             [Item.BLUE_CONCRETE, Item.AIR, Item.YELLOW_CONCRETE],
         ]
-        self.directions = Direction
+        self.directions = Direction.all
         self.anchors = Anchor
         self.results = [
-            [
-                (Item.RED_CONCRETE, Vec3(x=0, y=0, z=0)),
-                (Item.AIR, Vec3(x=0, y=0, z=1)),
-                (Item.GREEN_CONCRETE, Vec3(x=0, y=0, z=2)),
-                (Item.AIR, Vec3(x=0, y=-1, z=0)),
-                (Item.AIR, Vec3(x=0, y=-1, z=1)),
-                (Item.AIR, Vec3(x=0, y=-1, z=2)),
-                (Item.BLUE_CONCRETE, Vec3(x=0, y=-2, z=0)),
-                (Item.AIR, Vec3(x=0, y=-2, z=1)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=2))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=0, y=0, z=-2)),
-                (Item.AIR, Vec3(x=0, y=0, z=-1)),
-                (Item.GREEN_CONCRETE, Vec3(x=0, y=0, z=0)),
-                (Item.AIR, Vec3(x=0, y=-1, z=-2)),
-                (Item.AIR, Vec3(x=0, y=-1, z=-1)),
-                (Item.AIR, Vec3(x=0, y=-1, z=0)),
-                (Item.BLUE_CONCRETE, Vec3(x=0, y=-2, z=-2)),
-                (Item.AIR, Vec3(x=0, y=-2, z=-1)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=0))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=0, y=2, z=0)),
-                (Item.AIR, Vec3(x=0, y=2, z=1)),
-                (Item.GREEN_CONCRETE, Vec3(x=0, y=2, z=2)),
-                (Item.AIR, Vec3(x=0, y=1, z=0)),
-                (Item.AIR, Vec3(x=0, y=1, z=1)),
-                (Item.AIR, Vec3(x=0, y=1, z=2)),
-                (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=0)),
-                (Item.AIR, Vec3(x=0, y=0, z=1)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=2))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=0, y=2, z=-2)),
-                (Item.AIR, Vec3(x=0, y=2, z=-1)),
-                (Item.GREEN_CONCRETE, Vec3(x=0, y=2, z=0)),
-                (Item.AIR, Vec3(x=0, y=1, z=-2)),
-                (Item.AIR, Vec3(x=0, y=1, z=-1)),
-                (Item.AIR, Vec3(x=0, y=1, z=0)),
-                (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=-2)),
-                (Item.AIR, Vec3(x=0, y=0, z=-1)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=0, y=1, z=-1)),
-                (Item.AIR, Vec3(x=0, y=1, z=0)),
-                (Item.GREEN_CONCRETE, Vec3(x=0, y=1, z=1)),
-                (Item.AIR, Vec3(x=0, y=0, z=-1)),
-                (Item.AIR, Vec3(x=0, y=0, z=0)),
-                (Item.AIR, Vec3(x=0, y=0, z=1)),
-                (Item.BLUE_CONCRETE, Vec3(x=0, y=-1, z=-1)),
-                (Item.AIR, Vec3(x=0, y=-1, z=0)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=-1, z=1))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=0, y=0, z=0)),
-                (Item.AIR, Vec3(x=0, y=0, z=-1)),
-                (Item.GREEN_CONCRETE, Vec3(x=0, y=0, z=-2)),
-                (Item.AIR, Vec3(x=0, y=-1, z=0)),
-                (Item.AIR, Vec3(x=0, y=-1, z=-1)),
-                (Item.AIR, Vec3(x=0, y=-1, z=-2)),
-                (Item.BLUE_CONCRETE, Vec3(x=0, y=-2, z=0)),
-                (Item.AIR, Vec3(x=0, y=-2, z=-1)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=-2))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=0, y=0, z=2)),
-                (Item.AIR, Vec3(x=0, y=0, z=1)),
-                (Item.GREEN_CONCRETE, Vec3(x=0, y=0, z=0)),
-                (Item.AIR, Vec3(x=0, y=-1, z=2)),
-                (Item.AIR, Vec3(x=0, y=-1, z=1)),
-                (Item.AIR, Vec3(x=0, y=-1, z=0)),
-                (Item.BLUE_CONCRETE, Vec3(x=0, y=-2, z=2)),
-                (Item.AIR, Vec3(x=0, y=-2, z=1)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=0))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=0, y=2, z=0)),
-                (Item.AIR, Vec3(x=0, y=2, z=-1)),
-                (Item.GREEN_CONCRETE, Vec3(x=0, y=2, z=-2)),
-                (Item.AIR, Vec3(x=0, y=1, z=0)),
-                (Item.AIR, Vec3(x=0, y=1, z=-1)),
-                (Item.AIR, Vec3(x=0, y=1, z=-2)),
-                (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=0)),
-                (Item.AIR, Vec3(x=0, y=0, z=-1)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=-2))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=0, y=2, z=2)),
-                (Item.AIR, Vec3(x=0, y=2, z=1)),
-                (Item.GREEN_CONCRETE, Vec3(x=0, y=2, z=0)),
-                (Item.AIR, Vec3(x=0, y=1, z=2)),
-                (Item.AIR, Vec3(x=0, y=1, z=1)),
-                (Item.AIR, Vec3(x=0, y=1, z=0)),
-                (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=2)),
-                (Item.AIR, Vec3(x=0, y=0, z=1)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=0, y=1, z=1)),
-                (Item.AIR, Vec3(x=0, y=1, z=0)),
-                (Item.GREEN_CONCRETE, Vec3(x=0, y=1, z=-1)),
-                (Item.AIR, Vec3(x=0, y=0, z=1)),
-                (Item.AIR, Vec3(x=0, y=0, z=0)),
-                (Item.AIR, Vec3(x=0, y=0, z=-1)),
-                (Item.BLUE_CONCRETE, Vec3(x=0, y=-1, z=1)),
-                (Item.AIR, Vec3(x=0, y=-1, z=0)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=-1, z=-1))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=0, y=0, z=0)),
-                (Item.AIR, Vec3(x=1, y=0, z=0)),
-                (Item.GREEN_CONCRETE, Vec3(x=2, y=0, z=0)),
-                (Item.AIR, Vec3(x=0, y=0, z=-1)),
-                (Item.AIR, Vec3(x=1, y=0, z=-1)),
-                (Item.AIR, Vec3(x=2, y=0, z=-1)),
-                (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=-2)),
-                (Item.AIR, Vec3(x=1, y=0, z=-2)),
-                (Item.YELLOW_CONCRETE, Vec3(x=2, y=0, z=-2))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=-2, y=0, z=0)),
-                (Item.AIR, Vec3(x=-1, y=0, z=0)),
-                (Item.GREEN_CONCRETE, Vec3(x=0, y=0, z=0)),
-                (Item.AIR, Vec3(x=-2, y=0, z=-1)),
-                (Item.AIR, Vec3(x=-1, y=0, z=-1)),
-                (Item.AIR, Vec3(x=0, y=0, z=-1)),
-                (Item.BLUE_CONCRETE, Vec3(x=-2, y=0, z=-2)),
-                (Item.AIR, Vec3(x=-1, y=0, z=-2)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=-2))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=0, y=0, z=2)),
-                (Item.AIR, Vec3(x=1, y=0, z=2)),
-                (Item.GREEN_CONCRETE, Vec3(x=2, y=0, z=2)),
-                (Item.AIR, Vec3(x=0, y=0, z=1)),
-                (Item.AIR, Vec3(x=1, y=0, z=1)),
-                (Item.AIR, Vec3(x=2, y=0, z=1)),
-                (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=0)),
-                (Item.AIR, Vec3(x=1, y=0, z=0)),
-                (Item.YELLOW_CONCRETE, Vec3(x=2, y=0, z=0))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=-2, y=0, z=2)),
-                (Item.AIR, Vec3(x=-1, y=0, z=2)),
-                (Item.GREEN_CONCRETE, Vec3(x=0, y=0, z=2)),
-                (Item.AIR, Vec3(x=-2, y=0, z=1)),
-                (Item.AIR, Vec3(x=-1, y=0, z=1)),
-                (Item.AIR, Vec3(x=0, y=0, z=1)),
-                (Item.BLUE_CONCRETE, Vec3(x=-2, y=0, z=0)),
-                (Item.AIR, Vec3(x=-1, y=0, z=0)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=-1, y=0, z=1)),
-                (Item.AIR, Vec3(x=0, y=0, z=1)),
-                (Item.GREEN_CONCRETE, Vec3(x=1, y=0, z=1)),
-                (Item.AIR, Vec3(x=-1, y=0, z=0)),
-                (Item.AIR, Vec3(x=0, y=0, z=0)),
-                (Item.AIR, Vec3(x=1, y=0, z=0)),
-                (Item.BLUE_CONCRETE, Vec3(x=-1, y=0, z=-1)),
-                (Item.AIR, Vec3(x=0, y=0, z=-1)),
-                (Item.YELLOW_CONCRETE, Vec3(x=1, y=0, z=-1))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=0, y=0, z=0)),
-                (Item.AIR, Vec3(x=1, y=0, z=0)),
-                (Item.GREEN_CONCRETE, Vec3(x=2, y=0, z=0)),
-                (Item.AIR, Vec3(x=0, y=0, z=1)),
-                (Item.AIR, Vec3(x=1, y=0, z=1)),
-                (Item.AIR, Vec3(x=2, y=0, z=1)),
-                (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=2)),
-                (Item.AIR, Vec3(x=1, y=0, z=2)),
-                (Item.YELLOW_CONCRETE, Vec3(x=2, y=0, z=2))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=-2, y=0, z=0)),
-                (Item.AIR, Vec3(x=-1, y=0, z=0)),
-                (Item.GREEN_CONCRETE, Vec3(x=0, y=0, z=0)),
-                (Item.AIR, Vec3(x=-2, y=0, z=1)),
-                (Item.AIR, Vec3(x=-1, y=0, z=1)),
-                (Item.AIR, Vec3(x=0, y=0, z=1)),
-                (Item.BLUE_CONCRETE, Vec3(x=-2, y=0, z=2)),
-                (Item.AIR, Vec3(x=-1, y=0, z=2)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=2))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=0, y=0, z=-2)),
-                (Item.AIR, Vec3(x=1, y=0, z=-2)),
-                (Item.GREEN_CONCRETE, Vec3(x=2, y=0, z=-2)),
-                (Item.AIR, Vec3(x=0, y=0, z=-1)),
-                (Item.AIR, Vec3(x=1, y=0, z=-1)),
-                (Item.AIR, Vec3(x=2, y=0, z=-1)),
-                (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=0)),
-                (Item.AIR, Vec3(x=1, y=0, z=0)),
-                (Item.YELLOW_CONCRETE, Vec3(x=2, y=0, z=0))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=-2, y=0, z=-2)),
-                (Item.AIR, Vec3(x=-1, y=0, z=-2)),
-                (Item.GREEN_CONCRETE, Vec3(x=0, y=0, z=-2)),
-                (Item.AIR, Vec3(x=-2, y=0, z=-1)),
-                (Item.AIR, Vec3(x=-1, y=0, z=-1)),
-                (Item.AIR, Vec3(x=0, y=0, z=-1)),
-                (Item.BLUE_CONCRETE, Vec3(x=-2, y=0, z=0)),
-                (Item.AIR, Vec3(x=-1, y=0, z=0)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0))
-            ],
-            [
-                (Item.RED_CONCRETE, Vec3(x=-1, y=0, z=-1)),
-                (Item.AIR, Vec3(x=0, y=0, z=-1)),
-                (Item.GREEN_CONCRETE, Vec3(x=1, y=0, z=-1)),
-                (Item.AIR, Vec3(x=-1, y=0, z=0)),
-                (Item.AIR, Vec3(x=0, y=0, z=0)),
-                (Item.AIR, Vec3(x=1, y=0, z=0)),
-                (Item.BLUE_CONCRETE, Vec3(x=-1, y=0, z=1)),
-                (Item.AIR, Vec3(x=0, y=0, z=1)),
-                (Item.YELLOW_CONCRETE, Vec3(x=1, y=0, z=1))
-            ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=0, z=0)),
                 (Item.AIR, Vec3(x=-1, y=0, z=0)),
@@ -300,7 +80,8 @@ class TestOffsets(TestCase):
                 (Item.AIR, Vec3(x=-2, y=-1, z=0)),
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=-2, z=0)),
                 (Item.AIR, Vec3(x=-1, y=-2, z=0)),
-                (Item.YELLOW_CONCRETE, Vec3(x=-2, y=-2, z=0))
+                (Item.YELLOW_CONCRETE, Vec3(x=-2, y=-2, z=0)),
+
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=2, y=0, z=0)),
@@ -311,7 +92,8 @@ class TestOffsets(TestCase):
                 (Item.AIR, Vec3(x=0, y=-1, z=0)),
                 (Item.BLUE_CONCRETE, Vec3(x=2, y=-2, z=0)),
                 (Item.AIR, Vec3(x=1, y=-2, z=0)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=0))
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=0)),
+
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=2, z=0)),
@@ -322,7 +104,8 @@ class TestOffsets(TestCase):
                 (Item.AIR, Vec3(x=-2, y=1, z=0)),
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=0)),
                 (Item.AIR, Vec3(x=-1, y=0, z=0)),
-                (Item.YELLOW_CONCRETE, Vec3(x=-2, y=0, z=0))
+                (Item.YELLOW_CONCRETE, Vec3(x=-2, y=0, z=0)),
+
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=2, y=2, z=0)),
@@ -333,7 +116,8 @@ class TestOffsets(TestCase):
                 (Item.AIR, Vec3(x=0, y=1, z=0)),
                 (Item.BLUE_CONCRETE, Vec3(x=2, y=0, z=0)),
                 (Item.AIR, Vec3(x=1, y=0, z=0)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0))
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0)),
+
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=1, y=1, z=0)),
@@ -344,7 +128,68 @@ class TestOffsets(TestCase):
                 (Item.AIR, Vec3(x=-1, y=0, z=0)),
                 (Item.BLUE_CONCRETE, Vec3(x=1, y=-1, z=0)),
                 (Item.AIR, Vec3(x=0, y=-1, z=0)),
-                (Item.YELLOW_CONCRETE, Vec3(x=-1, y=-1, z=0))
+                (Item.YELLOW_CONCRETE, Vec3(x=-1, y=-1, z=0)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=0, y=0, z=0)),
+                (Item.AIR, Vec3(x=0, y=0, z=-1)),
+                (Item.GREEN_CONCRETE, Vec3(x=0, y=0, z=-2)),
+                (Item.AIR, Vec3(x=0, y=-1, z=0)),
+                (Item.AIR, Vec3(x=0, y=-1, z=-1)),
+                (Item.AIR, Vec3(x=0, y=-1, z=-2)),
+                (Item.BLUE_CONCRETE, Vec3(x=0, y=-2, z=0)),
+                (Item.AIR, Vec3(x=0, y=-2, z=-1)),
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=-2)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=0, y=0, z=2)),
+                (Item.AIR, Vec3(x=0, y=0, z=1)),
+                (Item.GREEN_CONCRETE, Vec3(x=0, y=0, z=0)),
+                (Item.AIR, Vec3(x=0, y=-1, z=2)),
+                (Item.AIR, Vec3(x=0, y=-1, z=1)),
+                (Item.AIR, Vec3(x=0, y=-1, z=0)),
+                (Item.BLUE_CONCRETE, Vec3(x=0, y=-2, z=2)),
+                (Item.AIR, Vec3(x=0, y=-2, z=1)),
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=0)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=0, y=2, z=0)),
+                (Item.AIR, Vec3(x=0, y=2, z=-1)),
+                (Item.GREEN_CONCRETE, Vec3(x=0, y=2, z=-2)),
+                (Item.AIR, Vec3(x=0, y=1, z=0)),
+                (Item.AIR, Vec3(x=0, y=1, z=-1)),
+                (Item.AIR, Vec3(x=0, y=1, z=-2)),
+                (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=0)),
+                (Item.AIR, Vec3(x=0, y=0, z=-1)),
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=-2)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=0, y=2, z=2)),
+                (Item.AIR, Vec3(x=0, y=2, z=1)),
+                (Item.GREEN_CONCRETE, Vec3(x=0, y=2, z=0)),
+                (Item.AIR, Vec3(x=0, y=1, z=2)),
+                (Item.AIR, Vec3(x=0, y=1, z=1)),
+                (Item.AIR, Vec3(x=0, y=1, z=0)),
+                (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=2)),
+                (Item.AIR, Vec3(x=0, y=0, z=1)),
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=0, y=1, z=1)),
+                (Item.AIR, Vec3(x=0, y=1, z=0)),
+                (Item.GREEN_CONCRETE, Vec3(x=0, y=1, z=-1)),
+                (Item.AIR, Vec3(x=0, y=0, z=1)),
+                (Item.AIR, Vec3(x=0, y=0, z=0)),
+                (Item.AIR, Vec3(x=0, y=0, z=-1)),
+                (Item.BLUE_CONCRETE, Vec3(x=0, y=-1, z=1)),
+                (Item.AIR, Vec3(x=0, y=-1, z=0)),
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=-1, z=-1)),
+
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=0, z=0)),
@@ -355,7 +200,8 @@ class TestOffsets(TestCase):
                 (Item.AIR, Vec3(x=2, y=-1, z=0)),
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=-2, z=0)),
                 (Item.AIR, Vec3(x=1, y=-2, z=0)),
-                (Item.YELLOW_CONCRETE, Vec3(x=2, y=-2, z=0))
+                (Item.YELLOW_CONCRETE, Vec3(x=2, y=-2, z=0)),
+
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=-2, y=0, z=0)),
@@ -366,7 +212,8 @@ class TestOffsets(TestCase):
                 (Item.AIR, Vec3(x=0, y=-1, z=0)),
                 (Item.BLUE_CONCRETE, Vec3(x=-2, y=-2, z=0)),
                 (Item.AIR, Vec3(x=-1, y=-2, z=0)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=0))
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=0)),
+
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=2, z=0)),
@@ -377,7 +224,8 @@ class TestOffsets(TestCase):
                 (Item.AIR, Vec3(x=2, y=1, z=0)),
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=0)),
                 (Item.AIR, Vec3(x=1, y=0, z=0)),
-                (Item.YELLOW_CONCRETE, Vec3(x=2, y=0, z=0))
+                (Item.YELLOW_CONCRETE, Vec3(x=2, y=0, z=0)),
+
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=-2, y=2, z=0)),
@@ -388,7 +236,8 @@ class TestOffsets(TestCase):
                 (Item.AIR, Vec3(x=0, y=1, z=0)),
                 (Item.BLUE_CONCRETE, Vec3(x=-2, y=0, z=0)),
                 (Item.AIR, Vec3(x=-1, y=0, z=0)),
-                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0))
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0)),
+
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=-1, y=1, z=0)),
@@ -399,8 +248,189 @@ class TestOffsets(TestCase):
                 (Item.AIR, Vec3(x=1, y=0, z=0)),
                 (Item.BLUE_CONCRETE, Vec3(x=-1, y=-1, z=0)),
                 (Item.AIR, Vec3(x=0, y=-1, z=0)),
-                (Item.YELLOW_CONCRETE, Vec3(x=1, y=-1, z=0))
-            ]
+                (Item.YELLOW_CONCRETE, Vec3(x=1, y=-1, z=0)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=0, y=0, z=0)),
+                (Item.AIR, Vec3(x=0, y=0, z=1)),
+                (Item.GREEN_CONCRETE, Vec3(x=0, y=0, z=2)),
+                (Item.AIR, Vec3(x=0, y=-1, z=0)),
+                (Item.AIR, Vec3(x=0, y=-1, z=1)),
+                (Item.AIR, Vec3(x=0, y=-1, z=2)),
+                (Item.BLUE_CONCRETE, Vec3(x=0, y=-2, z=0)),
+                (Item.AIR, Vec3(x=0, y=-2, z=1)),
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=2)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=0, y=0, z=-2)),
+                (Item.AIR, Vec3(x=0, y=0, z=-1)),
+                (Item.GREEN_CONCRETE, Vec3(x=0, y=0, z=0)),
+                (Item.AIR, Vec3(x=0, y=-1, z=-2)),
+                (Item.AIR, Vec3(x=0, y=-1, z=-1)),
+                (Item.AIR, Vec3(x=0, y=-1, z=0)),
+                (Item.BLUE_CONCRETE, Vec3(x=0, y=-2, z=-2)),
+                (Item.AIR, Vec3(x=0, y=-2, z=-1)),
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=0)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=0, y=2, z=0)),
+                (Item.AIR, Vec3(x=0, y=2, z=1)),
+                (Item.GREEN_CONCRETE, Vec3(x=0, y=2, z=2)),
+                (Item.AIR, Vec3(x=0, y=1, z=0)),
+                (Item.AIR, Vec3(x=0, y=1, z=1)),
+                (Item.AIR, Vec3(x=0, y=1, z=2)),
+                (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=0)),
+                (Item.AIR, Vec3(x=0, y=0, z=1)),
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=2)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=0, y=2, z=-2)),
+                (Item.AIR, Vec3(x=0, y=2, z=-1)),
+                (Item.GREEN_CONCRETE, Vec3(x=0, y=2, z=0)),
+                (Item.AIR, Vec3(x=0, y=1, z=-2)),
+                (Item.AIR, Vec3(x=0, y=1, z=-1)),
+                (Item.AIR, Vec3(x=0, y=1, z=0)),
+                (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=-2)),
+                (Item.AIR, Vec3(x=0, y=0, z=-1)),
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=0, y=1, z=-1)),
+                (Item.AIR, Vec3(x=0, y=1, z=0)),
+                (Item.GREEN_CONCRETE, Vec3(x=0, y=1, z=1)),
+                (Item.AIR, Vec3(x=0, y=0, z=-1)),
+                (Item.AIR, Vec3(x=0, y=0, z=0)),
+                (Item.AIR, Vec3(x=0, y=0, z=1)),
+                (Item.BLUE_CONCRETE, Vec3(x=0, y=-1, z=-1)),
+                (Item.AIR, Vec3(x=0, y=-1, z=0)),
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=-1, z=1)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=0, y=0, z=0)),
+                (Item.AIR, Vec3(x=1, y=0, z=0)),
+                (Item.GREEN_CONCRETE, Vec3(x=2, y=0, z=0)),
+                (Item.AIR, Vec3(x=0, y=0, z=-1)),
+                (Item.AIR, Vec3(x=1, y=0, z=-1)),
+                (Item.AIR, Vec3(x=2, y=0, z=-1)),
+                (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=-2)),
+                (Item.AIR, Vec3(x=1, y=0, z=-2)),
+                (Item.YELLOW_CONCRETE, Vec3(x=2, y=0, z=-2)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=-2, y=0, z=0)),
+                (Item.AIR, Vec3(x=-1, y=0, z=0)),
+                (Item.GREEN_CONCRETE, Vec3(x=0, y=0, z=0)),
+                (Item.AIR, Vec3(x=-2, y=0, z=-1)),
+                (Item.AIR, Vec3(x=-1, y=0, z=-1)),
+                (Item.AIR, Vec3(x=0, y=0, z=-1)),
+                (Item.BLUE_CONCRETE, Vec3(x=-2, y=0, z=-2)),
+                (Item.AIR, Vec3(x=-1, y=0, z=-2)),
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=-2)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=0, y=0, z=2)),
+                (Item.AIR, Vec3(x=1, y=0, z=2)),
+                (Item.GREEN_CONCRETE, Vec3(x=2, y=0, z=2)),
+                (Item.AIR, Vec3(x=0, y=0, z=1)),
+                (Item.AIR, Vec3(x=1, y=0, z=1)),
+                (Item.AIR, Vec3(x=2, y=0, z=1)),
+                (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=0)),
+                (Item.AIR, Vec3(x=1, y=0, z=0)),
+                (Item.YELLOW_CONCRETE, Vec3(x=2, y=0, z=0)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=-2, y=0, z=2)),
+                (Item.AIR, Vec3(x=-1, y=0, z=2)),
+                (Item.GREEN_CONCRETE, Vec3(x=0, y=0, z=2)),
+                (Item.AIR, Vec3(x=-2, y=0, z=1)),
+                (Item.AIR, Vec3(x=-1, y=0, z=1)),
+                (Item.AIR, Vec3(x=0, y=0, z=1)),
+                (Item.BLUE_CONCRETE, Vec3(x=-2, y=0, z=0)),
+                (Item.AIR, Vec3(x=-1, y=0, z=0)),
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=-1, y=0, z=1)),
+                (Item.AIR, Vec3(x=0, y=0, z=1)),
+                (Item.GREEN_CONCRETE, Vec3(x=1, y=0, z=1)),
+                (Item.AIR, Vec3(x=-1, y=0, z=0)),
+                (Item.AIR, Vec3(x=0, y=0, z=0)),
+                (Item.AIR, Vec3(x=1, y=0, z=0)),
+                (Item.BLUE_CONCRETE, Vec3(x=-1, y=0, z=-1)),
+                (Item.AIR, Vec3(x=0, y=0, z=-1)),
+                (Item.YELLOW_CONCRETE, Vec3(x=1, y=0, z=-1)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=0, y=0, z=0)),
+                (Item.AIR, Vec3(x=1, y=0, z=0)),
+                (Item.GREEN_CONCRETE, Vec3(x=2, y=0, z=0)),
+                (Item.AIR, Vec3(x=0, y=0, z=1)),
+                (Item.AIR, Vec3(x=1, y=0, z=1)),
+                (Item.AIR, Vec3(x=2, y=0, z=1)),
+                (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=2)),
+                (Item.AIR, Vec3(x=1, y=0, z=2)),
+                (Item.YELLOW_CONCRETE, Vec3(x=2, y=0, z=2)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=-2, y=0, z=0)),
+                (Item.AIR, Vec3(x=-1, y=0, z=0)),
+                (Item.GREEN_CONCRETE, Vec3(x=0, y=0, z=0)),
+                (Item.AIR, Vec3(x=-2, y=0, z=1)),
+                (Item.AIR, Vec3(x=-1, y=0, z=1)),
+                (Item.AIR, Vec3(x=0, y=0, z=1)),
+                (Item.BLUE_CONCRETE, Vec3(x=-2, y=0, z=2)),
+                (Item.AIR, Vec3(x=-1, y=0, z=2)),
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=2)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=0, y=0, z=-2)),
+                (Item.AIR, Vec3(x=1, y=0, z=-2)),
+                (Item.GREEN_CONCRETE, Vec3(x=2, y=0, z=-2)),
+                (Item.AIR, Vec3(x=0, y=0, z=-1)),
+                (Item.AIR, Vec3(x=1, y=0, z=-1)),
+                (Item.AIR, Vec3(x=2, y=0, z=-1)),
+                (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=0)),
+                (Item.AIR, Vec3(x=1, y=0, z=0)),
+                (Item.YELLOW_CONCRETE, Vec3(x=2, y=0, z=0)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=-2, y=0, z=-2)),
+                (Item.AIR, Vec3(x=-1, y=0, z=-2)),
+                (Item.GREEN_CONCRETE, Vec3(x=0, y=0, z=-2)),
+                (Item.AIR, Vec3(x=-2, y=0, z=-1)),
+                (Item.AIR, Vec3(x=-1, y=0, z=-1)),
+                (Item.AIR, Vec3(x=0, y=0, z=-1)),
+                (Item.BLUE_CONCRETE, Vec3(x=-2, y=0, z=0)),
+                (Item.AIR, Vec3(x=-1, y=0, z=0)),
+                (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0)),
+
+            ],
+            [
+                (Item.RED_CONCRETE, Vec3(x=-1, y=0, z=-1)),
+                (Item.AIR, Vec3(x=0, y=0, z=-1)),
+                (Item.GREEN_CONCRETE, Vec3(x=1, y=0, z=-1)),
+                (Item.AIR, Vec3(x=-1, y=0, z=0)),
+                (Item.AIR, Vec3(x=0, y=0, z=0)),
+                (Item.AIR, Vec3(x=1, y=0, z=0)),
+                (Item.BLUE_CONCRETE, Vec3(x=-1, y=0, z=1)),
+                (Item.AIR, Vec3(x=0, y=0, z=1)),
+                (Item.YELLOW_CONCRETE, Vec3(x=1, y=0, z=1)),
+
+            ],
         ]
 
     def test_offsets(self):
@@ -449,3 +479,32 @@ class TestValidate(TestCase):
 
         self.assertEqual(validate(self.valid_row), 1)
         self.assertEqual(validate(self.invalid_row1), 0)
+
+
+class TestCardinals(TestCase):
+    """Test Cardinal Direction Functions"""
+
+    def test_y_rotate(self):
+        d = Direction.SOUTH
+
+        d = y_rotate(d)
+        self.assertEqual(d, Direction.WEST)
+        d = y_rotate(d)
+        self.assertEqual(d, Direction.NORTH)
+        d = y_rotate(d)
+        self.assertEqual(d, Direction.EAST)
+        d = y_rotate(d)
+        self.assertEqual(d, Direction.SOUTH)
+        d = y_rotate(d)
+        self.assertEqual(d, Direction.WEST)
+
+        d = y_rotate(d, False)
+        self.assertEqual(d, Direction.SOUTH)
+        d = y_rotate(d, False)
+        self.assertEqual(d, Direction.EAST)
+        d = y_rotate(d, False)
+        self.assertEqual(d, Direction.NORTH)
+        d = y_rotate(d, False)
+        self.assertEqual(d, Direction.WEST)
+        d = y_rotate(d, False)
+        self.assertEqual(d, Direction.SOUTH)
