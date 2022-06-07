@@ -233,8 +233,7 @@ class Direction:
     @classmethod
     @property
     def all(cls) -> List[Vec3]:
-        directions = filter(lambda val: type(val) is Vec3, vars(cls).values())
-        return list(directions)
+        return [val for val in vars(cls).values() if type(val) is Vec3]
 
     @classmethod
     @property
