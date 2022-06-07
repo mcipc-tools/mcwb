@@ -233,7 +233,7 @@ class Direction:
     @classmethod
     @property
     def all(cls) -> List[Vec3]:
-        return [val for val in vars(cls).values() if type(val) is Vec3]
+        return [val for val in vars(cls).values() if isinstance(val, Vec3)]
 
     @classmethod
     @property
