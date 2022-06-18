@@ -481,7 +481,7 @@ class TestValidate(TestCase):
         self.assertEqual(validate(self.invalid_row1), 0)
 
 
-class TestCardinals(TestCase):
+class TestDirection(TestCase):
     """Test Cardinal Direction Functions"""
 
     def test_y_rotate(self):
@@ -508,3 +508,26 @@ class TestCardinals(TestCase):
         self.assertEqual(d, Direction.WEST)
         d = y_rotate(d, False)
         self.assertEqual(d, Direction.SOUTH)
+
+    def test_facing(self):
+        p1 = Vec3(100, 0, 100)
+
+        p2s = [
+            Vec3(100, 0, 100),
+            Vec3(205, 0, 100),
+            Vec3(-150, 0, 120),
+            Vec3(106, 0, -105),
+            Vec3(199, 0, 200),
+            Vec3(100, 0, 101),
+        ]
+        dirs = [
+            Direction.EAST,
+            Direction.EAST,
+            Direction.WEST,
+            Direction.NORTH,
+            Direction.SOUTH,
+            Direction.SOUTH,
+        ]
+
+        for p2, direction in zip(p2s, dirs):
+            assert Direction.facing(p1, p2) == direction

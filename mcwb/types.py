@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from math import ceil, floor, sqrt
+from math import atan2, ceil, floor, pi, sqrt
 from typing import Iterator, List, NamedTuple, Tuple, Union
 
 from mcipc.rcon.enumerations import Item
@@ -230,6 +230,15 @@ class Direction:
     UP = Vec3(0, +1, 0)
     DOWN = Vec3(0, -1, 0)
 
+    # Direction.name() gets an NBT 'facing' field value from a Direction vector
+    _names = ["south", "west", "north", "east", "up", "down"]
+
+    # An indexed lookup like an Enum, useful for quadrant math
+    @classmethod
+    @property
+    def values(cls) -> List[Vec3]:
+        return [cls.SOUTH, cls.WEST, cls.NORTH, cls.EAST, cls.UP, cls.DOWN]
+
     @classmethod
     @property
     def all(cls) -> List[Vec3]:
@@ -239,6 +248,24 @@ class Direction:
     @property
     def cardinals(cls) -> List[Vec3]:
         return list(cls.all[:-2])
+
+    @classmethod
+    def name(cls, direction: Vec3) -> str:
+        idx = cls.all.index(direction)
+        return cls._names[idx]
+
+    @classmethod
+    def facing(cls, p1: Vec3, p2: Vec3) -> Vec3:
+        """
+        return a vector representing the cardinal direction when facing point p2
+        from the perspective of point p1
+        """
+        angle = atan2(p2.z - p1.z, p2.x - p1.x)
+        angle += pi * 5 / 4
+        angle /= pi / 2
+        quarter = int(angle)
+        quarter = (quarter + 1) % 4
+        return cls.values[quarter]
 
 
 class Planes3d(Enum):
