@@ -1,6 +1,7 @@
 """Representation of 3D spaces."""
 
 from __future__ import annotations
+
 from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
 
@@ -58,8 +59,8 @@ class Volume:
     def from_corners(cls, start: Vec3, end: Vec3) -> Volume:
         """ a factory function to define Volume using opposite corners """
         volume = Volume()
-        start = Vec3(*start)
-        end = Vec3(*end)
+        start = Vec3(*start).with_ints()
+        end = Vec3(*end).with_ints()
 
         # normalize start and end so all start coords are minima
         volume.position = volume.start = Vec3(
