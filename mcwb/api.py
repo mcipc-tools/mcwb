@@ -1,14 +1,15 @@
 """Exposed API functions."""
 
 import math
-from time import sleep
-from typing import List, Optional
+import operator
+from typing import List, Optional, Tuple
 
+import numpy as np
 from mcipc.rcon.client import Client
 from mcipc.rcon.enumerations import FillMode, Item
 
 from mcwb.functions import get_direction, normalize, offsets, validate
-from mcwb.types import Anchor, Profile, Vec3
+from mcwb.types import Anchor, Direction, Profile, Vec3
 
 __all__ = ["mktunnel"]
 
@@ -19,11 +20,11 @@ def mktunnel(
     start: Vec3,
     *,
     end: Vec3 = None,
-    direction: Vec3 = None,
+    direction: Vec3 = Direction.UP,
     length: int = 1,
-    anchor: Anchor = Anchor.BOTTOM_RIGHT,
+    anchor: Anchor = Anchor.CENTER,
     default: Item = Item.AIR,
-    mode: FillMode = None,
+    mode: FillMode = FillMode.KEEP,
     filter: str = None,
 ):
     """Creates a tunnel with the given profile."""
@@ -34,23 +35,25 @@ def mktunnel(
         raise ValueError("Invalid matrix.")
 
     if end is None:
-        end = start + direction * length
+        end = start + direction * (length - 1)
     else:
         end = Vec3(*end)  # Ensure Vec3 object.
 
-    calculated_direction = get_direction(start, end)
+    direction = direction or get_direction(start, end)
     profile = list(normalize(profile, default=default))
 
-    for block, offset in offsets(profile, calculated_direction, anchor):
+    for block, offset in offsets(profile, direction, anchor):
         client.fill(start + offset, end + offset, block, mode=mode, filter=filter)
 
 
 def polygon(diameter: int, sides: int, offset: Optional[float] = None):
     """
-    Creates a polygon with the given diameter and number of sides.
+    Returns a set of 2d points tp make a polygon with the given diameter and
+    number of sides.
     """
 
-    corners: List[Vec3] = []
+    x_points: List[int] = []
+    z_points: List[int] = []
 
     if sides < 3:
         raise ValueError("Number of sides must be at least 3.")
@@ -59,58 +62,67 @@ def polygon(diameter: int, sides: int, offset: Optional[float] = None):
     angle = 2 * math.pi / sides
     offset = angle / 2 if offset is None else offset
     for i in range(sides):
-        x = round(radius * math.cos(i * angle + offset))
-        z = round(radius * math.sin(i * angle + offset))
-        corners.append(Vec3(x, 0, z))
+        x_points.append(round(radius * math.cos(i * angle + offset)))
+        z_points.append(round(radius * math.sin(i * angle + offset)))
 
-    return corners
+    return x_points, z_points
 
 
-def poly(
-    client: Client, center: Vec3, sides=4, dia=15, item: Item = Item.AIR, offset=None
-):
-    corners = polygon(diameter=dia, sides=sides, offset=offset)
-    for i in range(len(corners)):
+def poly_profile(sides=4, diameter=15, item: Item = Item.STONE, offset=None):
+    def add_2d(x, z):
+        return tuple(map(operator.add, x, z))
+
+    x_points, z_points = polygon(diameter=diameter, sides=sides, offset=offset)
+    x_size = max(x_points) - min(x_points) + 1
+    z_size = max(z_points) - min(z_points) + 1
+    vertices = [(x, z) for x, z in zip(x_points, z_points)]
+
+    profile = np.full(shape=(x_size, z_size), fill_value=Item.AIR)
+    center = math.floor(x_size / 2), math.floor(z_size / 2)
+
+    for i in range(len(x_points)):
         make_line_xz(
-            client, center + corners[i], center + corners[(i + 1) % sides], item
+            profile,
+            add_2d(center, vertices[i]),
+            add_2d(center, vertices[(i + 1) % sides]),
+            item,
         )
-        sleep(1)
+    return profile
 
 
 def make_line_xz(
-    client: Client, start: Vec3, end: Vec3, item: Item = Item.AIR, overlap: int = 0
+    profile: np.ndarray,
+    start: Tuple[int, int],  # x, z
+    end: Tuple[int, int],  # x, z
+    item: Item = Item.AIR,
+    overlap: int = 0,
 ):
     """
-    Creates a line of blocks from start to end.
-
-    The line is at the height of the start block and has constant height.
+    Creates a line of blocks from start to end inside a 2d profile.
     """
 
-    def d_range(n1, n2):
+    def delta(n1, n2):
         if n1 > n2:
-            return -1, range(n1, n2 - 1, -1), n1 - n2
+            return -1, n1 - n2
         else:
-            return 1, range(n1, n2 + 1), n2 - n1
+            return 1, n2 - n1
 
-    start = Vec3(*start).with_ints()  # Ensure Vec3 object.
-    end = Vec3(*end).with_ints()  # Ensure Vec3 object.
+    dir_x, delta_x = delta(start[0], end[0])
+    dir_z, delta_z = delta(start[1], end[1])
 
-    dir_x, range_x, delta_x = d_range(start.x, end.x)
-    dir_z, range_z, delta_z = d_range(start.z, end.z)
+    steps = max(delta_x, delta_z) or 1
 
-    steps = int(max(delta_x, delta_z))
-
-    z_step = delta_z / steps * dir_z
     x_step = delta_x / steps * dir_x
+    z_step = delta_z / steps * dir_z
 
-    x, y, z = start.x, start.y, start.z
+    x, z = start[0], start[1]
     next_x, next_z = x, z
 
-    client.setblock(Vec3(x, y, z), item)
+    profile[x][z] = item
 
     for i in range(steps + 1):
         if (x, z) != (round(next_x), round(next_z)):
             x, z = round(next_x), round(next_z)
-            client.setblock(Vec3(x, y, z), item)
+            profile[x][z] = item
         next_z += z_step
         next_x += x_step
