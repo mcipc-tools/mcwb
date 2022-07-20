@@ -1,18 +1,18 @@
 """Helper functions."""
 
-from typing import Iterator
+from typing import Iterator, Union
 
 import numpy as np
 from mcipc.rcon.enumerations import Item
 
-from mcwb.types import (Anchor, Direction, Items, Number, Offsets,
-                        Profile, Row, Vec3)
+from mcwb.types import Anchor, Direction, Items, Number, Offsets, Profile, Row, Vec3
 
-__all__ = ['get_direction', 'normalize', 'offsets', 'validate']
+__all__ = ["get_direction", "normalize", "offsets", "validate"]
 
 
-def _get_offset(direction: Vec3, x_start: Number, y_start: Number,
-                delta_y: Number, delta_xz: Number) -> Vec3:
+def _get_offset(
+    direction: Vec3, x_start: Number, y_start: Number, delta_y: Number, delta_xz: Number
+) -> Vec3:
     """Returns the offset for a given direction."""
 
     if direction.north:
@@ -33,7 +33,7 @@ def _get_offset(direction: Vec3, x_start: Number, y_start: Number,
     if direction.down:
         return Vec3(-x_start + delta_xz, 0, -y_start + delta_y)
 
-    raise ValueError('Cannot determine offset.')
+    raise ValueError("Cannot determine offset.")
 
 
 def get_direction(start: Vec3, end: Vec3) -> Vec3:
@@ -42,7 +42,7 @@ def get_direction(start: Vec3, end: Vec3) -> Vec3:
     """
 
     if sum(coord1 != coord2 for coord1, coord2 in zip(start, end)) != 1:
-        raise ValueError('Not one direction given.')
+        raise ValueError("Not one direction given.")
 
     return end - start
 
@@ -55,7 +55,9 @@ def y_rotate(direction: Vec3, clockwise: bool = True) -> Vec3:
     return Direction.cardinals[rotated % len(Direction.cardinals)]
 
 
-def normalize(profile: Profile, default: Item = Item.AIR) -> Iterator[Row]:
+def normalize(
+    profile: Union[Profile, np.ndarray], default: Item = Item.AIR
+) -> Iterator[Row]:
     """Normalizes a profile."""
 
     for row in profile:
@@ -93,15 +95,15 @@ def validate(items: Items):
     with np.warnings.catch_warnings(record=True) as warning:
         np.warnings.simplefilter("always")
         narray = np.array(items)
-        if warning and 'ragged nested' in str(warning[-1].message):
+        if warning and "ragged nested" in str(warning[-1].message):
             ragged = True
 
     return int(narray.ndim) if narray.dtype == Item and not ragged else 0
 
 
 def shift(arr: np.ndarray, vec: Vec3, fill: Item = Item.AIR) -> np.ndarray:
-    """ shift a 3d array of Item by vec, discarding the cells that are
-        shifted out and filling the new space with Item fill
+    """shift a 3d array of Item by vec, discarding the cells that are
+    shifted out and filling the new space with Item fill
     """
 
     # this is the fastest approach in python, see 1d Benchmark at
@@ -109,21 +111,21 @@ def shift(arr: np.ndarray, vec: Vec3, fill: Item = Item.AIR) -> np.ndarray:
     result: np.ndarray = np.array(np.full_like(arr, fill), dtype=Item)
     if vec.y > 0:
         result[:, : vec.y, :] = fill
-        result[:, vec.y:, :] = arr[:, : -vec.y, :]
+        result[:, vec.y :, :] = arr[:, : -vec.y, :]
     elif vec.y < 0:
-        result[:, vec.y:, :] = fill
-        result[:, : vec.y, :] = arr[:, -vec.y:, :]
+        result[:, vec.y :, :] = fill
+        result[:, : vec.y, :] = arr[:, -vec.y :, :]
     if vec.x > 0:
         result[: vec.x, :, :] = fill
-        result[vec.x:, :, :] = arr[: -vec.x, :, :]
+        result[vec.x :, :, :] = arr[: -vec.x, :, :]
     elif vec.x < 0:
-        result[vec.x:, :, :] = fill
-        result[: vec.x, :, :] = arr[-vec.x:, :, :]
+        result[vec.x :, :, :] = fill
+        result[: vec.x, :, :] = arr[-vec.x :, :, :]
     if vec.z > 0:
-        result[:, :, : vec.z:] = fill
-        result[:, :, vec.z:] = arr[:, :, : -vec.z]
+        result[:, :, : vec.z :] = fill
+        result[:, :, vec.z :] = arr[:, :, : -vec.z]
     elif vec.z < 0:
-        result[:, :, vec.z:] = fill
-        result[:, :, : vec.z] = arr[:, :, -vec.z:]
+        result[:, :, vec.z :] = fill
+        result[:, :, : vec.z] = arr[:, :, -vec.z :]
 
     return result

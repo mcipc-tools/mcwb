@@ -1,38 +1,73 @@
 """Exposed API functions."""
 
+from typing import Optional, Union
+
+import numpy as np
 from mcipc.rcon.client import Client
 from mcipc.rcon.enumerations import FillMode, Item
 
-from mcwb.functions import get_direction
-from mcwb.functions import offsets
-from mcwb.functions import normalize
-from mcwb.functions import validate
-from mcwb.types import Anchor, Profile, Vec3
+from mcwb.functions import get_direction, normalize, offsets, validate
+from mcwb.polygon import poly_profile
+from mcwb.types import Anchor, Direction, Profile, Vec3
+
+__all__ = ["make_tunnel"]
 
 
-__all__ = ['mktunnel']
-
-
-def mktunnel(client: Client, profile: Profile, start: Vec3, *,
-             end: Vec3 = None, direction: Vec3 = None, length: int = 1,
-             anchor: Anchor = Anchor.BOTTOM_RIGHT, default: Item = Item.AIR,
-             mode: FillMode = None, filter: str = None):
+def make_tunnel(
+    client: Client,
+    profile: Union[Profile, np.ndarray],
+    start: Vec3,
+    *,
+    end: Optional[Vec3] = None,
+    direction: Vec3 = Direction.UP,
+    length: int = 1,
+    anchor: Anchor = Anchor.CENTER,
+    default: Item = Item.AIR,
+    mode: FillMode = FillMode.KEEP,
+    filter: Optional[str] = None,
+):
     """Creates a tunnel with the given profile."""
 
-    start = Vec3(*start)    # Ensure Vec3 object.
+    start = Vec3(*start)  # Ensure Vec3 object.
 
     if validate(profile) != 2:
-        raise ValueError('Invalid matrix.')
+        raise ValueError("Invalid matrix.")
 
     if end is None:
-        end = start + direction * length
+        end = start + direction * (length - 1)
     else:
-        end = Vec3(*end)    # Ensure Vec3 object.
+        end = Vec3(*end)  # Ensure Vec3 object.
 
-    calculated_direction = get_direction(start, end)
+    direction = direction or get_direction(start, end)
     profile = list(normalize(profile, default=default))
 
-    for block, offset in offsets(profile, calculated_direction, anchor):
-        client.fill(
-            start + offset, end + offset, block, mode=mode, filter=filter
-        )
+    for block, offset in offsets(profile, direction, anchor):
+        client.fill(start + offset, end + offset, block, mode=mode, filter=filter)
+
+
+def polygon(
+    client: Client,
+    center: Vec3,
+    height: int,
+    diameter: int,
+    sides=4,
+    direction=Direction.UP,
+    item: Item = Item.STONE,
+    offset=None,
+):
+    """
+    Place a polygon in the world
+
+    TODO - lots of arguments here - maybe should use classes for the API instead?
+    Tunnel, Polygon ...
+    """
+
+    profile = poly_profile(sides=sides, diameter=diameter, item=item, offset=offset)
+    make_tunnel(
+        client,
+        profile,
+        center,
+        length=height,
+        direction=direction,
+        mode=FillMode.REPLACE,
+    )

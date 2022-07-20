@@ -1,12 +1,13 @@
 """Representation of 3D spaces."""
 
 from __future__ import annotations
+
 from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
 
-from mcwb import Anchor, Anchor3, Anchor3Face, Direction, Vec3, mktunnel
+from mcwb import Anchor, Anchor3, Anchor3Face, Direction, Vec3, make_tunnel
 
-__all__ = ['Volume']
+__all__ = ["Volume"]
 
 MAX_MINECRAFT_FILL_COMMAND = 32768
 
@@ -31,7 +32,7 @@ class Volume:
 
     @classmethod
     def from_anchor(cls, position: Vec3, size: Vec3, anchor: Anchor3) -> Volume:
-        """ a factory function to create a Volume using anchor and size """
+        """a factory function to create a Volume using anchor and size"""
         volume = Volume()
         volume.position = Vec3(*position)
         volume.size = Vec3(*size)
@@ -56,20 +57,16 @@ class Volume:
 
     @classmethod
     def from_corners(cls, start: Vec3, end: Vec3) -> Volume:
-        """ a factory function to define Volume using opposite corners """
+        """a factory function to define Volume using opposite corners"""
         volume = Volume()
-        start = Vec3(*start)
-        end = Vec3(*end)
+        start = Vec3(*start).with_ints()
+        end = Vec3(*end).with_ints()
 
         # normalize start and end so all start coords are minima
         volume.position = volume.start = Vec3(
-            min(start.x, end.x), min(
-                start.y, end.y), min(start.z, end.z)
+            min(start.x, end.x), min(start.y, end.y), min(start.z, end.z)
         )
-        volume.end = Vec3(
-            max(start.x, end.x), max(
-                start.y, end.y), max(start.z, end.z)
-        )
+        volume.end = Vec3(max(start.x, end.x), max(start.y, end.y), max(start.z, end.z))
         volume.size = (volume.end - volume.start) + 1
 
         return volume
@@ -77,7 +74,7 @@ class Volume:
     def inside(
         self, position: Vec3, xtol: int = 0, ytol: int = 0, ztol: int = 0
     ) -> bool:
-        """ determine if position is within the Volume """
+        """determine if position is within the Volume"""
         return (
             self.start.x - xtol <= position.x <= self.end.x + xtol
             and self.start.y - ytol <= position.y <= self.end.y + ytol
@@ -85,24 +82,24 @@ class Volume:
         )
 
     def move(self, distance: Vec3) -> None:
-        """ move the volume's location in space by distance """
+        """move the volume's location in space by distance"""
         self.start += distance
         self.end += distance
         self.position += distance
 
     def move_to(self, position: Vec3) -> None:
-        """ move the volume's location in space to position """
+        """move the volume's location in space to position"""
         self.start += position - self.position
         self.end += position - self.position
         self.position = position
 
     def fill(self, client: Client, block: Item = Item.AIR):
-        """ Fill the Volume with a single block type, supports large volumes """
+        """Fill the Volume with a single block type, supports large volumes"""
         if self.size.volume < MAX_MINECRAFT_FILL_COMMAND:
             client.fill(self.start, self.end, block.value)
         else:
             profile = [[block] * int(self.size.x)] * int(self.size.y)
-            mktunnel(
+            make_tunnel(
                 client,
                 profile,
                 self.start,
@@ -124,24 +121,18 @@ class Volume:
         east: bool = True,
         west: bool = True,
     ) -> None:
-        """ renders walls at the faces of the volume """
+        """renders walls at the faces of the volume"""
         t = thickness - 1
         b = block.value
         if north:
-            client.fill(self.start, Vec3(
-                self.end.x, self.end.y, self.start.z + t), b)
+            client.fill(self.start, Vec3(self.end.x, self.end.y, self.start.z + t), b)
         if south:
-            client.fill(self.end, Vec3(
-                self.start.x, self.start.y, self.end.z - t), b)
+            client.fill(self.end, Vec3(self.start.x, self.start.y, self.end.z - t), b)
         if west:
-            client.fill(self.start, Vec3(
-                self.start.x + t, self.end.y, self.end.z), b)
+            client.fill(self.start, Vec3(self.start.x + t, self.end.y, self.end.z), b)
         if east:
-            client.fill(self.end, Vec3(self.end.x - t,
-                                       self.start.y, self.start.z), b)
+            client.fill(self.end, Vec3(self.end.x - t, self.start.y, self.start.z), b)
         if top:
-            client.fill(self.end, Vec3(
-                self.start.x, self.end.y - t, self.start.z), b)
+            client.fill(self.end, Vec3(self.start.x, self.end.y - t, self.start.z), b)
         if bottom:
-            client.fill(self.start, Vec3(
-                self.end.x, self.start.y + 1, self.end.z), b)
+            client.fill(self.start, Vec3(self.end.x, self.start.y + 1, self.end.z), b)
