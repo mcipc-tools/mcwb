@@ -23,7 +23,7 @@ ITEM_KEY = "__Item__"
 
 
 def save_items(items: Items, filename: Path) -> None:
-    """ save a Profile, Cuboid or Row to a json file """
+    """save a Profile, Cuboid or Row to a json file"""
 
     def json_item(item: Item):
         return {ITEM_KEY: item.value}
@@ -42,7 +42,7 @@ def save_items(items: Items, filename: Path) -> None:
 
 
 def load_items(filename: Union[Path, str], dimensions: int = None) -> Items:
-    """ load a JSON file of Items - returns a Cuboid, Profile or Row"""
+    """load a JSON file of Items - returns a Cuboid, Profile or Row"""
 
     def as_item(dct: dict):
         if ITEM_KEY in dct:
@@ -62,7 +62,7 @@ def load_items(filename: Union[Path, str], dimensions: int = None) -> Items:
         raise ValueError(
             "file {filename} contains {valid_dims} dimension Items"
             "but {dimensions} dimensions was requested"
-            )
+        )
 
     return result
 
@@ -72,7 +72,7 @@ extract_item = re.compile(r".*minecraft\:(?:blocks\/)?(.+)$")
 
 
 def grab(client: Client, vol: Volume) -> Cuboid:
-    """ copy blocks from a Volume in the minecraft world into a cuboid of Item """
+    """copy blocks from a Volume in the minecraft world into a cuboid of Item"""
     ncube = np.ndarray(vol.size, dtype=Item)
 
     for idx, _ in np.ndenumerate(ncube):

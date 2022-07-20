@@ -9,17 +9,17 @@ from typing import Iterator, List, NamedTuple, Tuple, Union
 from mcipc.rcon.enumerations import Item
 
 __all__ = [
-    'Anchor',
-    'Anchor3',
-    'Cuboid',
-    'Direction',
-    'Items',
-    'Number',
-    'Offset',
-    'Offsets',
-    'Profile',
-    'Row',
-    'Vec3'
+    "Anchor",
+    "Anchor3",
+    "Cuboid",
+    "Direction",
+    "Items",
+    "Number",
+    "Offset",
+    "Offsets",
+    "Profile",
+    "Row",
+    "Vec3",
 ]
 
 
@@ -29,52 +29,59 @@ Number = Union[float, int]
 class Anchor(Enum):
     """Anchor point for tunnels."""
 
-    TOP_LEFT = 'top_left'
-    TOP_RIGHT = 'top_right'
-    BOTTOM_LEFT = 'bottom_left'
-    BOTTOM_RIGHT = 'bottom_right'
-    MIDDLE = CENTER = CENTRE = 'middle'
+    TOP_LEFT = "top_left"
+    TOP_RIGHT = "top_right"
+    BOTTOM_LEFT = "bottom_left"
+    BOTTOM_RIGHT = "bottom_right"
+    MIDDLE = CENTER = CENTRE = "middle"
 
 
 class Anchor3(Enum):
     """Anchor point for cuboids."""
 
-    MIDDLE = CENTER = CENTRE = 'middle'
-    BOTTOM_MIDDLE = BOTTOM_CENTER = BOTTOM_CENTRE = 'bottom_middle'
-    TOP_MIDDLE = TOP_CENTER = TOP_CENTRE = 'top_middle'
+    MIDDLE = CENTER = CENTRE = "middle"
+    BOTTOM_MIDDLE = BOTTOM_CENTER = BOTTOM_CENTRE = "bottom_middle"
+    TOP_MIDDLE = TOP_CENTER = TOP_CENTRE = "top_middle"
 
-    BOTTOM_SW = 'bottom_sw'
-    BOTTOM_NW = 'bottom_nw'
-    BOTTOM_NE = 'bottom_ne'
-    BOTTOM_SE = 'bottom_se'
+    BOTTOM_SW = "bottom_sw"
+    BOTTOM_NW = "bottom_nw"
+    BOTTOM_NE = "bottom_ne"
+    BOTTOM_SE = "bottom_se"
 
-    TOP_SW = 'top_sw'
-    TOP_NW = 'top_nw'
-    TOP_NE = 'top_ne'
-    TOP_SE = 'top_se'
+    TOP_SW = "top_sw"
+    TOP_NW = "top_nw"
+    TOP_NE = "top_ne"
+    TOP_SE = "top_se"
 
     def __str__(self):
-        return f'{self.value}'
+        return f"{self.value}"
 
 
 class Anchor3Face:
     """Groupings of Anchor3 based on which face of the volume they inhabit"""
 
-    TOP = {Anchor3.TOP_SW, Anchor3.TOP_NW, Anchor3.TOP_NE,
-           Anchor3.TOP_SE, Anchor3.TOP_MIDDLE}
-    BOTTOM = {Anchor3.BOTTOM_SW, Anchor3.BOTTOM_NW,
-              Anchor3.BOTTOM_NE, Anchor3.BOTTOM_SE}
+    TOP = {
+        Anchor3.TOP_SW,
+        Anchor3.TOP_NW,
+        Anchor3.TOP_NE,
+        Anchor3.TOP_SE,
+        Anchor3.TOP_MIDDLE,
+    }
+    BOTTOM = {
+        Anchor3.BOTTOM_SW,
+        Anchor3.BOTTOM_NW,
+        Anchor3.BOTTOM_NE,
+        Anchor3.BOTTOM_SE,
+    }
     # middle of top or bottom face
-    MIDDLE_FACE = CENTER_FACE = CENTRE_FACE = {Anchor3.BOTTOM_MIDDLE,
-                                               Anchor3.TOP_MIDDLE}
-    NORTH = {Anchor3.TOP_NW, Anchor3.TOP_NE,
-             Anchor3.BOTTOM_NW, Anchor3.BOTTOM_NE}
-    SOUTH = {Anchor3.TOP_SW, Anchor3.TOP_SE,
-             Anchor3.BOTTOM_SW, Anchor3.BOTTOM_SE}
-    EAST = {Anchor3.TOP_NE, Anchor3.TOP_SE,
-            Anchor3.BOTTOM_NE, Anchor3.BOTTOM_SE}
-    WEST = {Anchor3.TOP_SW, Anchor3.TOP_NW,
-            Anchor3.BOTTOM_SW, Anchor3.BOTTOM_NW}
+    MIDDLE_FACE = CENTER_FACE = CENTRE_FACE = {
+        Anchor3.BOTTOM_MIDDLE,
+        Anchor3.TOP_MIDDLE,
+    }
+    NORTH = {Anchor3.TOP_NW, Anchor3.TOP_NE, Anchor3.BOTTOM_NW, Anchor3.BOTTOM_NE}
+    SOUTH = {Anchor3.TOP_SW, Anchor3.TOP_SE, Anchor3.BOTTOM_SW, Anchor3.BOTTOM_SE}
+    EAST = {Anchor3.TOP_NE, Anchor3.TOP_SE, Anchor3.BOTTOM_NE, Anchor3.BOTTOM_SE}
+    WEST = {Anchor3.TOP_SW, Anchor3.TOP_NW, Anchor3.BOTTOM_SW, Anchor3.BOTTOM_NW}
 
 
 class Vec3(NamedTuple):
@@ -89,8 +96,7 @@ class Vec3(NamedTuple):
 
     def __add__(self, other):
         if isinstance(other, Vec3):
-            return type(self)(self.x + other.x, self.y + other.y,
-                              self.z + other.z)
+            return type(self)(self.x + other.x, self.y + other.y, self.z + other.z)
 
         return type(self)(self.x + other, self.y + other, self.z + other)
 
@@ -102,8 +108,7 @@ class Vec3(NamedTuple):
 
     def __floordiv__(self, other):
         if isinstance(other, Vec3):
-            return type(self)(self.x // other.x, self.y // other.y,
-                              self.z // other.z)
+            return type(self)(self.x // other.x, self.y // other.y, self.z // other.z)
 
         return type(self)(self.x // other, self.y // other, self.z // other)
 
@@ -129,23 +134,22 @@ class Vec3(NamedTuple):
         return type(self)(-self.x, -self.y, -self.z)
 
     def __pos__(self):
-        return self     # No operation necessary.
+        return self  # No operation necessary.
 
     def __round__(self, ndigits: int = 0):
-        return type(self)(round(self.x, ndigits), round(self.y, ndigits),
-                          round(self.z, ndigits))
+        return type(self)(
+            round(self.x, ndigits), round(self.y, ndigits), round(self.z, ndigits)
+        )
 
     def __sub__(self, other):
         if isinstance(other, Vec3):
-            return type(self)(self.x - other.x, self.y - other.y,
-                              self.z - other.z)
+            return type(self)(self.x - other.x, self.y - other.y, self.z - other.z)
 
         return type(self)(self.x - other, self.y - other, self.z - other)
 
     def __truediv__(self, other):
         if isinstance(other, Vec3):
-            return type(self)(self.x / other.x, self.y / other.y,
-                              self.z / other.z)
+            return type(self)(self.x / other.x, self.y / other.y, self.z / other.z)
 
         return type(self)(self.x / other, self.y / other, self.z / other)
 
@@ -169,17 +173,17 @@ class Vec3(NamedTuple):
         return sum(coord != 0 for coord in self) == 1
 
     @property
-    def dx(self):   # pylint: disable=C0103
+    def dx(self):  # pylint: disable=C0103
         """Returns the absolute x value."""
         return abs(self.x)
 
     @property
-    def dy(self):   # pylint: disable=C0103
+    def dy(self):  # pylint: disable=C0103
         """Returns the absolute y value."""
         return abs(self.y)
 
     @property
-    def dz(self):   # pylint: disable=C0103
+    def dz(self):  # pylint: disable=C0103
         """Returns the absolute z value."""
         return abs(self.z)
 
@@ -214,7 +218,7 @@ class Vec3(NamedTuple):
         return self.y < 0
 
     @property
-    def up(self):   # pylint: disable=C0103
+    def up(self):  # pylint: disable=C0103
         """Checks whether the vector points up."""
         return self.y > 0
 
@@ -271,7 +275,8 @@ class Direction:
 class Planes3d(Enum):
     """
     Represents all 3 planes in a 3d space as a pair of
-    dimension indices as used in np.array: 0=X 1=Y 2=Z """
+    dimension indices as used in np.array: 0=X 1=Y 2=Z"""
+
     XY = (0, 1)
     XZ = (0, 2)
     YZ = (1, 2)
