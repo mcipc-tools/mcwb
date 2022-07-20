@@ -1,6 +1,6 @@
 """Helper functions."""
 
-from typing import Iterator
+from typing import Iterator, Union
 
 import numpy as np
 from mcipc.rcon.enumerations import Item
@@ -55,7 +55,9 @@ def y_rotate(direction: Vec3, clockwise: bool = True) -> Vec3:
     return Direction.cardinals[rotated % len(Direction.cardinals)]
 
 
-def normalize(profile: Profile, default: Item = Item.AIR) -> Iterator[Row]:
+def normalize(
+    profile: Union[Profile, np.ndarray], default: Item = Item.AIR
+) -> Iterator[Row]:
     """Normalizes a profile."""
 
     for row in profile:

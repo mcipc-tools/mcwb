@@ -6,6 +6,7 @@ from enum import Enum
 from math import atan2, ceil, floor, pi, sqrt
 from typing import Iterator, List, NamedTuple, Tuple, Union
 
+import numpy as np
 from mcipc.rcon.enumerations import Item
 
 __all__ = [
@@ -275,16 +276,17 @@ class Direction:
 class Planes3d(Enum):
     """
     Represents all 3 planes in a 3d space as a pair of
-    dimension indices as used in np.array: 0=X 1=Y 2=Z"""
+    dimension indices as used in np.array: 0=X 1=Y 2=Z
+    """
 
     XY = (0, 1)
     XZ = (0, 2)
     YZ = (1, 2)
 
 
-Row = List[Item]
-Profile = List[Row]
-Cuboid = List[Profile]
+Row = Union[List[Item], np.ndarray]
+Profile = Union[List[Row], np.ndarray]
+Cuboid = Union[List[Profile], np.ndarray]
 
 Items = Union[Cuboid, Profile, Row]
 

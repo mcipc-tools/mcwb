@@ -1,6 +1,6 @@
 """Methods to build in the world."""
 
-from mcwb.api import mktunnel
+from mcwb.api import make_tunnel
 from mcwb.types import (
     Anchor,
     Anchor3,
@@ -30,5 +30,5 @@ __all__ = [
     "Row",
     "Vec3",
     "Volume",
-    "mktunnel",
+    "make_tunnel",
 ]

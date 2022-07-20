@@ -5,7 +5,7 @@ from __future__ import annotations
 from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
 
-from mcwb import Anchor, Anchor3, Anchor3Face, Direction, Vec3, mktunnel
+from mcwb import Anchor, Anchor3, Anchor3Face, Direction, Vec3, make_tunnel
 
 __all__ = ["Volume"]
 
@@ -99,7 +99,7 @@ class Volume:
             client.fill(self.start, self.end, block.value)
         else:
             profile = [[block] * int(self.size.x)] * int(self.size.y)
-            mktunnel(
+            make_tunnel(
                 client,
                 profile,
                 self.start,
