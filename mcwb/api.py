@@ -54,6 +54,7 @@ def polygon(
     direction=Direction.UP,
     item: Item = Item.STONE,
     offset=None,
+    mode=FillMode.KEEP,
 ):
     """
     Place a polygon in the world
@@ -63,11 +64,4 @@ def polygon(
     """
 
     profile = poly_profile(sides=sides, diameter=diameter, item=item, offset=offset)
-    make_tunnel(
-        client,
-        profile,
-        center,
-        length=height,
-        direction=direction,
-        mode=FillMode.REPLACE,
-    )
+    make_tunnel(client, profile, center, length=height, direction=direction, mode=mode)

@@ -21,9 +21,12 @@ def poly_points(diameter: int, sides: int, offset: Optional[float] = None):
     if sides < 3:
         raise ValueError("Number of sides must be at least 3.")
 
-    radius = diameter // 2
+    # calc the radius to the corners
+    radius = diameter // 2 / math.sin(math.pi / sides)
+
     angle = 2 * math.pi / sides
     offset = angle / 2 if offset is None else offset
+
     for i in range(sides):
         x_points.append(round(radius * math.cos(i * angle + offset)))
         z_points.append(round(radius * math.sin(i * angle + offset)))
