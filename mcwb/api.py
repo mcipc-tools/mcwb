@@ -1,5 +1,6 @@
 """Exposed API functions."""
 
+import re
 from typing import Optional, Union
 
 import numpy as np
@@ -65,3 +66,28 @@ def polygon(
 
     profile = poly_profile(sides=sides, diameter=diameter, item=item, offset=offset)
     make_tunnel(client, profile, center, length=height, direction=direction, mode=mode)
+
+
+_bottom = -64  # the bottom of the world - only compatible with MC 1.19 upwards
+_extract_item = re.compile(r".*minecraft\:(?:blocks\/)?(.+)$")
+
+
+def get_block(client: Client, pos: Vec3):
+    """Get the block at the given position."""
+
+    # loot.spawn creates an entity - We choose to dump it into the void.
+    # We choose the point right below pos to avoid any issues with
+    # the block being in an chunk that is not loaded.
+    dump = (pos.x, _bottom, pos.z)
+
+    # currently the only way to test for a block is to use the loot spawn
+    # command, this creates an entity that falls into the void
+    output = client.loot.spawn(dump).mine(pos)
+    match = _extract_item.search(output)
+    if not match:
+        raise ValueError(f"unexpected response from loot spawn: {output}")
+    name = match.group(1)
+    if name == "empty":
+        name = "air"
+
+    return Item(name)
