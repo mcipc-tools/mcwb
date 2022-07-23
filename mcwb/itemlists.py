@@ -7,7 +7,6 @@ Functions for manipulating lists of Items
 
 import codecs
 import json
-import re
 from pathlib import Path
 from typing import Union
 
@@ -15,9 +14,9 @@ import numpy as np
 from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
 
-from mcwb import Cuboid, Vec3, Volume, Items
+from mcwb import Cuboid, Items, Vec3, Volume
+from mcwb.api import get_block
 from mcwb.functions import validate
-
 
 ITEM_KEY = "__Item__"
 
@@ -67,25 +66,12 @@ def load_items(filename: Union[Path, str], dimensions: int = None) -> Items:
     return result
 
 
-dump = Vec3(0, 0, 0)
-extract_item = re.compile(r".*minecraft\:(?:blocks\/)?(.+)$")
-
-
 def grab(client: Client, vol: Volume) -> Cuboid:
     """copy blocks from a Volume in the minecraft world into a cuboid of Item"""
-    ncube = np.ndarray(vol.size, dtype=Item)
+    cube = np.ndarray(vol.size.i_tuple, dtype=Item)
 
-    for idx, _ in np.ndenumerate(ncube):
-        # currently the only way to test for a block is to use the loot spawn
-        # command, this creates an entity at 0, 0, 0 that falls into the void
-        output = client.loot.spawn(dump).mine(vol.start + Vec3(*idx))
-        match = extract_item.search(output)
-        if not match:
-            raise ValueError(f"unexpected response from loot spawn: {output}")
-        name = match.group(1)
-        if name == "empty":
-            name = "air"
-        ncube[idx] = Item(name)
+    for idx, _ in np.ndenumerate(cube):
+        cube[idx] = get_block(client, vol.start + Vec3(*idx))
 
-    result = ncube.tolist()
+    result = cube.tolist()
     return result

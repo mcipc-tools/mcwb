@@ -223,6 +223,16 @@ class Vec3(NamedTuple):
         """Checks whether the vector points up."""
         return self.y > 0
 
+    @property
+    def f_tuple(self):
+        """convert to a plain tuple of float"""
+        return (float(self.x), float(self.y), float(self.z))
+
+    @property
+    def i_tuple(self):
+        """convert to a plain tuple of float"""
+        return (int(self.x), int(self.y), int(self.z))
+
 
 class Direction:
     """Available directions."""
