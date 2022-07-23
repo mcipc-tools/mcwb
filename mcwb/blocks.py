@@ -5,9 +5,9 @@ import numpy as np
 from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
 
-from mcwb import Anchor3, Vec3, Volume
 from mcwb.functions import shift
-from mcwb.types import Cuboid, Items, Planes3d
+from mcwb.types import Anchor3, Cuboid, Items, Planes3d, Vec3
+from mcwb.volume import Volume
 
 
 class Blocks:

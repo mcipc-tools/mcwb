@@ -14,8 +14,7 @@ import numpy as np
 from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
 
-from mcwb import Cuboid, Items, Vec3, Volume
-from mcwb.api import get_block
+from mcwb import Cuboid, Items, Vec3, Volume, get_block
 from mcwb.functions import validate
 
 ITEM_KEY = "__Item__"

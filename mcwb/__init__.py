@@ -1,7 +1,6 @@
 """Methods to build in the world."""
 
-from mcwb.api import make_tunnel
-from mcwb.blocks import Blocks
+from mcwb.api import get_block, make_tunnel, polygon
 from mcwb.types import (
     Anchor,
     Anchor3,
@@ -14,6 +13,7 @@ from mcwb.types import (
     Row,
     Vec3,
 )
+from mcwb.blocks import Blocks
 from mcwb.volume import Volume
 
 __all__ = [
@@ -30,4 +30,6 @@ __all__ = [
     "Vec3",
     "Volume",
     "make_tunnel",
+    "polygon",
+    "get_block",
 ]
