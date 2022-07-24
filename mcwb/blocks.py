@@ -120,3 +120,4 @@ class Blocks:
         cube = load_items(file)
         self.ncube = np.array(cube, dtype=Item)
         self._create()
+        self._render()
