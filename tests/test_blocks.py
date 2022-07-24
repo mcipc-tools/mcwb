@@ -5,8 +5,9 @@ from unittest import TestCase
 from mcipc.rcon import Client
 
 from mcwb.blocks import Blocks
-from mcwb.itemlists import load_items
-from mcwb.types import Planes3d, Vec3
+from mcwb.itemlists import grab, load_items, save_items
+from mcwb.types import Anchor3, Planes3d, Vec3
+from mcwb.volume import Volume
 from tests.mockclient import MockClient
 
 cubes_dir = Path(__file__).parent / "cubes"
@@ -28,7 +29,7 @@ class TestRotation(TestCase):
 
             self.assertTrue(self.client.compare(self.start, rotated))
 
-        # 4th rotation returns to orignal state
+        # 4th rotation returns to original state
         world_cube.rotate(Planes3d.XY)
         self.assertTrue(self.client.compare(self.start, self.cube))
 

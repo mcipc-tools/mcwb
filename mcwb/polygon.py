@@ -58,6 +58,7 @@ def poly_draw(
     vertices: List[Tuple[int, int]],
     center: Tuple[int, int],
     item: Item,
+    fill_item: Item = Item.AIR,
 ) -> np.ndarray:
     """
     Take a list of 2d points and draw lines between them to make a polygon
@@ -76,6 +77,12 @@ def poly_draw(
             add_2d(center, vertices[(i + 1) % sides]),
             item,
         )
+
+    # if fill_item != Item.AIR:
+    #     for z in range(profile.shape[1]):
+    #         for x in range(profile.shape[0]):
+    #             if profile[x][z] == Item.AIR:
+    #                 profile[x][z] = fill_item
     return profile
 
 
