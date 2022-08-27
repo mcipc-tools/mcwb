@@ -1,0 +1,10 @@
+RGB.cube represents a 3x3 hollow cube with:
+
+layers from bottom to top made of Red, Green, Blue Concrete respectively. 
+The centre block is Air
+SW BOTTOM block is white
+NW TOP block is white
+
+The inner list iterates over Z increasing
+The next list iterates over Y increasing 
+The outer list iterates over X increasing

@@ -1,4 +1,5 @@
 """ render and transform cuboids of blocks in minecraft space """
+from pathlib import Path
 from typing import Any, Union
 
 import numpy as np
@@ -6,6 +7,7 @@ from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
 
 from mcwb.functions import shift
+from mcwb.itemlists import grab, load_items, save_items
 from mcwb.types import Anchor3, Cuboid, Items, Planes3d, Vec3
 from mcwb.volume import Volume
 
@@ -26,20 +28,32 @@ class Blocks:
     ) -> None:
         self._client = client
         self.anchor = anchor
+        self.position = position
 
         if isinstance(cube, np.ndarray):
-            self.ncube = cube
+            self.ncube: np.ndarray = cube
         else:
-            self.ncube = np.array(cube, dtype=Item)
+            self.ncube: np.ndarray = np.array(cube, dtype=Item)
 
-        if self.ncube.ndim != 3:
-            raise ValueError("invalid cube specificaton")
-
-        self.volume = Volume.from_anchor(position, Vec3(*self.ncube.shape), self.anchor)
-        self._solid: Any = self.ncube != Item.AIR
+        self._create()
 
         if render:
             self._render()
+
+    def _create(self):
+        if self.ncube.ndim != 3:
+            raise ValueError("invalid cube specification")
+
+        self.volume = Volume.from_anchor(
+            self.position, Vec3(*self.ncube.shape), self.anchor
+        )
+        self._solid: Any = self.ncube != Item.AIR
+
+    @classmethod
+    def from_volume(cls, client: Client, volume: Volume) -> "Blocks":
+        """create a Blocks object from a Volume"""
+        cuboid = grab(client, volume)
+        return cls(client, volume.position, cuboid)
 
     def _render(self) -> None:
         """render the blocks into Minecraft"""
@@ -72,7 +86,7 @@ class Blocks:
         self._render()
 
     def move(self, vector: Vec3, clear: bool = True) -> None:
-        """moves the cubiod by vector and redraws it"""
+        """moves the cuboid by vector and redraws it"""
         old_start = self.volume.start
         self.volume = Volume.from_anchor(
             self.volume.position + vector, Vec3(*self.ncube.shape), self.anchor
@@ -84,7 +98,7 @@ class Blocks:
             self._unrender(vector, old_start)
 
     def move_to(self, position: Vec3, clear: bool = True) -> None:
-        """moves the cubiod to position and redraws it"""
+        """moves the cuboid to position and redraws it"""
         old_volume = self.volume
         self.volume = Volume.from_anchor(position, Vec3(*self.ncube.shape), self.anchor)
 
@@ -96,3 +110,14 @@ class Blocks:
     def to_cuboid(self) -> Cuboid:
         """return the blocks' contents as a Cuboid"""
         return self.ncube.tolist()
+
+    def save_blocks(self, file: Path) -> None:
+        """save the blocks to a file"""
+        save_items(self.ncube, file)
+
+    def load_blocks(self, file: Path) -> None:
+        """load the blocks from a file"""
+        cube = load_items(file)
+        self.ncube = np.array(cube, dtype=Item)
+        self._create()
+        self._render()

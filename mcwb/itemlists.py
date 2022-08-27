@@ -14,14 +14,19 @@ import numpy as np
 from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
 
-from mcwb import Cuboid, Items, Vec3, Volume, get_block
+from mcwb.api import get_block
 from mcwb.functions import validate
+from mcwb.types import Cuboid, Items, Vec3
+from mcwb.volume import Volume
 
 ITEM_KEY = "__Item__"
 
 
 def save_items(items: Items, filename: Path) -> None:
     """save a Profile, Cuboid or Row to a json file"""
+
+    if isinstance(items, np.ndarray):
+        items = items.tolist()
 
     def json_item(item: Item):
         return {ITEM_KEY: item.value}

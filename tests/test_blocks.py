@@ -28,7 +28,7 @@ class TestRotation(TestCase):
 
             self.assertTrue(self.client.compare(self.start, rotated))
 
-        # 4th rotation returns to orignal state
+        # 4th rotation returns to original state
         world_cube.rotate(Planes3d.XY)
         self.assertTrue(self.client.compare(self.start, self.cube))
 

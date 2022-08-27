@@ -35,7 +35,11 @@ def poly_points(diameter: int, sides: int, offset: Optional[float] = None):
 
 
 def poly_profile(
-    sides=4, diameter=15, item: Item = Item.STONE, offset=None
+    sides=4,
+    diameter=15,
+    item: Item = Item.STONE,
+    offset=None,
+    fill_item: Item = Item.AIR,
 ) -> np.ndarray:
     """
     Create a profile containing a polygon. The dimensions of the profile
@@ -47,10 +51,10 @@ def poly_profile(
     z_size = max(z_points) - min(z_points) + 1
     vertices = [(x, z) for x, z in zip(x_points, z_points)]
 
-    profile = np.full(shape=(x_size, z_size), fill_value=Item.AIR)
+    profile = np.full(shape=(x_size, z_size), fill_value=Item.AIR, dtype=Item)
     center = math.floor(x_size / 2), math.floor(z_size / 2)
 
-    return poly_draw(profile, vertices, center, item)
+    return poly_draw(profile, vertices, center, item, fill_item=fill_item)
 
 
 def poly_draw(
@@ -58,6 +62,7 @@ def poly_draw(
     vertices: List[Tuple[int, int]],
     center: Tuple[int, int],
     item: Item,
+    fill_item: Item = Item.AIR,
 ) -> np.ndarray:
     """
     Take a list of 2d points and draw lines between them to make a polygon
@@ -76,6 +81,15 @@ def poly_draw(
             add_2d(center, vertices[(i + 1) % sides]),
             item,
         )
+
+    if fill_item != Item.AIR:
+        for r in range(profile.shape[0]):
+            row = profile[r]
+            result = np.where(row != Item.AIR)
+            positions = result[0]
+            if len(positions) == 2:
+                row[positions[0] + 1 : positions[1]] = fill_item
+
     return profile
 
 
