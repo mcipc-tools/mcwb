@@ -51,7 +51,7 @@ def poly_profile(
     z_size = max(z_points) - min(z_points) + 1
     vertices = [(x, z) for x, z in zip(x_points, z_points)]
 
-    profile = np.full(shape=(x_size, z_size), fill_value=Item.AIR)
+    profile = np.full(shape=(x_size, z_size), fill_value=Item.AIR, dtype=Item)
     center = math.floor(x_size / 2), math.floor(z_size / 2)
 
     return poly_draw(profile, vertices, center, item, fill_item=fill_item)

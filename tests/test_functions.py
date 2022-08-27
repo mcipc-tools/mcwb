@@ -462,6 +462,7 @@ class TestValidate(TestCase):
             [Item.AIR, Item.AIR, Item.AIR],
             [Item.BLUE_CONCRETE, Item.AIR, Item.YELLOW_CONCRETE],
         ]
+        # self.invalid_profile0  = [Item.AIR, "wheelbarrow"]
         self.valid_cuboid = [self.valid_profile, self.valid_profile]
         self.invalid_cuboid1 = [self.invalid_profile1, self.invalid_profile1]
         self.valid_row = [Item.RED_CONCRETE, Item.AIR, Item.GREEN_CONCRETE]
@@ -469,10 +470,15 @@ class TestValidate(TestCase):
 
     def test_validate(self):
         """Tests the validation of the profiles."""
-        self.assertEqual(validate(self.valid_profile), 2)
+
+        # TODO is there a quick way to verify that all elements are type Item?
+        # self.assertEqual(validate(self.invalid_profile0), 0)
+
         self.assertEqual(validate(self.invalid_profile1), 0)
         self.assertEqual(validate(self.invalid_profile2), 0)
         self.assertEqual(validate(self.invalid_cuboid1), 0)
+
+        self.assertEqual(validate(self.valid_profile), 2)
 
         self.assertEqual(validate(self.valid_cuboid), 3)
         self.assertEqual(validate(self.invalid_cuboid1), 0)
