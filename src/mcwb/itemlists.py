@@ -8,7 +8,7 @@ Functions for manipulating lists of Items
 import codecs
 import json
 from pathlib import Path
-from typing import Union
+from typing import Optional, Union
 
 import numpy as np
 from mcipc.rcon.enumerations import Item
@@ -45,7 +45,7 @@ def save_items(items: Items, filename: Path) -> None:
         )
 
 
-def load_items(filename: Union[Path, str], dimensions: int = None) -> Items:
+def load_items(filename: Union[Path, str], dimensions: Optional[int] = None) -> Items:
     """load a JSON file of Items - returns a Cuboid, Profile or Row"""
 
     def as_item(dct: dict):

@@ -113,14 +113,14 @@ class Vec3(NamedTuple):
 
         return type(self)(self.x // other, self.y // other, self.z // other)
 
-    def __getitem__(self, index_or_key: Union[int, str]):
+    def __getitem__(self, index_or_key: Union[int, str]):  # type: ignore
         """Returns an item by index or key."""
         if index_or_key in self.keys():
             return getattr(self, index_or_key)
 
         # Explicitely call to tuple, since
         # super() does not work in NamedTuples.
-        return tuple.__getitem__(self, index_or_key)
+        return tuple.__getitem__(self, index_or_key)  # type: ignore
 
     def __mul__(self, other):
         if isinstance(other, Vec3):

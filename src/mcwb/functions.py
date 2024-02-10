@@ -89,14 +89,12 @@ def validate(items: Items):
     """
     Validates a row, profile or cuboid, ensuring consistent dimensions
     """
-    invalid = False
-
     try:
-        n_array = np.array(items)
+        dims = np.array(items).ndim
     except ValueError:
-        invalid = True
+        dims = 0
 
-    return int(n_array.ndim) if not invalid else 0
+    return dims
 
 
 def shift(arr: np.ndarray, vec: Vec3, fill: Item = Item.AIR) -> np.ndarray:

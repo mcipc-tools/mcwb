@@ -43,7 +43,7 @@ def make_tunnel(
     profile = list(normalize(profile, default=default))
 
     for block, offset in offsets(profile, direction, anchor):
-        client.fill(start + offset, end + offset, block, mode=mode, filter=filter)
+        client.fill(start + offset, end + offset, block, mode=mode, filter=filter)  # type: ignore
 
 
 def polygon(
@@ -85,7 +85,7 @@ def get_block(client: Client, pos: Vec3):
 
     # currently the only way to test for a block is to use the loot spawn
     # command, this creates an entity that falls into the void
-    output = client.loot.spawn(dump).mine(pos)
+    output = client.loot.spawn(dump).mine(pos)  # type: ignore
     match = _extract_item.search(output)
     if not match:
         raise ValueError(f"unexpected response from loot spawn: {output}")
