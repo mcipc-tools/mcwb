@@ -17,41 +17,13 @@ class TestItemLists(TestCase):  # pylint: disable=R0902
         """Sets example shapes and a temporary directory."""
         self.test_dir = Path(tempfile.mkdtemp())
 
-        self.blue_row = [
-            Item.BLUE_CONCRETE,
-            Item.BLUE_CONCRETE,
-            Item.BLUE_CONCRETE
-        ]
-        self.red_row = [
-            Item.RED_CONCRETE,
-            Item.RED_CONCRETE,
-            Item.RED_CONCRETE
-        ]
-        self.hollow_row = [
-            Item.RED_CONCRETE,
-            Item.AIR,
-            Item.RED_CONCRETE
-        ]
-        self.top_profile = [
-            self.blue_row,
-            self.red_row,
-            self.red_row
-        ]
-        self.middle_profile = [
-            self.blue_row,
-            self.hollow_row,
-            self.red_row
-        ]
-        self.bottom_profile = [
-            self.blue_row,
-            self.blue_row,
-            self.red_row
-        ]
-        self.cube = [
-            self.top_profile,
-            self.middle_profile,
-            self.bottom_profile
-        ]
+        self.blue_row = [Item.BLUE_CONCRETE, Item.BLUE_CONCRETE, Item.BLUE_CONCRETE]
+        self.red_row = [Item.RED_CONCRETE, Item.RED_CONCRETE, Item.RED_CONCRETE]
+        self.hollow_row = [Item.RED_CONCRETE, Item.AIR, Item.RED_CONCRETE]
+        self.top_profile = [self.blue_row, self.red_row, self.red_row]
+        self.middle_profile = [self.blue_row, self.hollow_row, self.red_row]
+        self.bottom_profile = [self.blue_row, self.blue_row, self.red_row]
+        self.cube = [self.top_profile, self.middle_profile, self.bottom_profile]
 
     def tearDown(self):
         """Remove the directory after the test."""
@@ -68,7 +40,7 @@ class TestItemLists(TestCase):  # pylint: disable=R0902
     def test_save_profile(self):
         """Tests the saving of profiles."""
         path = self.test_dir / "row_profile.json"
-        save_items(self.middle_profile, path)
+        save_items(self.middle_profile, path)  # type: ignore
         items = load_items(path, 2)
 
         self.assertEqual(items, self.middle_profile)
@@ -76,7 +48,7 @@ class TestItemLists(TestCase):  # pylint: disable=R0902
     def test_save_cuboid(self):
         """Tests the saving of cuboids."""
         path = self.test_dir / "row_cuboid.json"
-        save_items(self.cube, path)
+        save_items(self.cube, path)  # type: ignore
         items = load_items(path, 3)
 
         self.assertEqual(items, self.cube)

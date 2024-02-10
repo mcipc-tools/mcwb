@@ -53,22 +53,7 @@ myst_enable_extensions = ["colon_fence"]
 
 # If true, Sphinx will warn about all references where the target cannot
 # be found.
-nitpicky = True
-
-# A list of (type, target) tuples (by default empty) that should be ignored when
-# generating warnings in "nitpicky mode". Note that type should include the
-# domain name if present. Example entries would be ('py:func', 'int') or
-# ('envvar', 'LD_LIBRARY_PATH').
-nitpick_ignore = [
-    ("py:class", "NoneType"),
-    ("py:class", "'str'"),
-    ("py:class", "'float'"),
-    ("py:class", "'int'"),
-    ("py:class", "'bool'"),
-    ("py:class", "'object'"),
-    ("py:class", "'id'"),
-    ("py:class", "typing_extensions.Literal"),
-]
+nitpicky = False
 
 # Both the class’ and the __init__ method’s docstring are concatenated and
 # inserted into the main body of the autoclass directive

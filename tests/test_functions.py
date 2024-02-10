@@ -25,14 +25,16 @@ class TestGetDirection(TestCase):
 
     def test_valid_direction_x(self):
         """Tests the results of get_direction()."""
-        self.assertEqual(get_direction(*self.valid_direction_x),
-                         self.direction_vector_x)
-        self.assertEqual(get_direction(*self.valid_direction_y),
-                         self.direction_vector_y)
-        self.assertEqual(get_direction(*self.valid_direction_z),
-                         self.direction_vector_z)
-        self.assertRaises(ValueError,
-                          partial(get_direction, *self.invalid_direction))
+        self.assertEqual(
+            get_direction(*self.valid_direction_x), self.direction_vector_x
+        )
+        self.assertEqual(
+            get_direction(*self.valid_direction_y), self.direction_vector_y
+        )
+        self.assertEqual(
+            get_direction(*self.valid_direction_z), self.direction_vector_z
+        )
+        self.assertRaises(ValueError, partial(get_direction, *self.invalid_direction))
 
 
 class TestNormalize(TestCase):
@@ -55,7 +57,8 @@ class TestNormalize(TestCase):
         """Tests the normalization of the profile template."""
         self.assertEqual(
             list(normalize(self.valid_profile_template, Item.AIR)),
-            self.valid_profile_air)
+            self.valid_profile_air,
+        )
 
 
 class TestOffsets(TestCase):
@@ -81,7 +84,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=-2, z=0)),
                 (Item.AIR, Vec3(x=-1, y=-2, z=0)),
                 (Item.YELLOW_CONCRETE, Vec3(x=-2, y=-2, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=2, y=0, z=0)),
@@ -93,7 +95,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=2, y=-2, z=0)),
                 (Item.AIR, Vec3(x=1, y=-2, z=0)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=2, z=0)),
@@ -105,7 +106,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=0)),
                 (Item.AIR, Vec3(x=-1, y=0, z=0)),
                 (Item.YELLOW_CONCRETE, Vec3(x=-2, y=0, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=2, y=2, z=0)),
@@ -117,7 +117,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=2, y=0, z=0)),
                 (Item.AIR, Vec3(x=1, y=0, z=0)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=1, y=1, z=0)),
@@ -129,7 +128,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=1, y=-1, z=0)),
                 (Item.AIR, Vec3(x=0, y=-1, z=0)),
                 (Item.YELLOW_CONCRETE, Vec3(x=-1, y=-1, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=0, z=0)),
@@ -141,7 +139,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=-2, z=0)),
                 (Item.AIR, Vec3(x=0, y=-2, z=-1)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=-2)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=0, z=2)),
@@ -153,7 +150,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=-2, z=2)),
                 (Item.AIR, Vec3(x=0, y=-2, z=1)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=2, z=0)),
@@ -165,7 +161,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=0)),
                 (Item.AIR, Vec3(x=0, y=0, z=-1)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=-2)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=2, z=2)),
@@ -177,7 +172,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=2)),
                 (Item.AIR, Vec3(x=0, y=0, z=1)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=1, z=1)),
@@ -189,7 +183,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=-1, z=1)),
                 (Item.AIR, Vec3(x=0, y=-1, z=0)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=-1, z=-1)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=0, z=0)),
@@ -201,7 +194,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=-2, z=0)),
                 (Item.AIR, Vec3(x=1, y=-2, z=0)),
                 (Item.YELLOW_CONCRETE, Vec3(x=2, y=-2, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=-2, y=0, z=0)),
@@ -213,7 +205,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=-2, y=-2, z=0)),
                 (Item.AIR, Vec3(x=-1, y=-2, z=0)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=2, z=0)),
@@ -225,7 +216,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=0)),
                 (Item.AIR, Vec3(x=1, y=0, z=0)),
                 (Item.YELLOW_CONCRETE, Vec3(x=2, y=0, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=-2, y=2, z=0)),
@@ -237,7 +227,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=-2, y=0, z=0)),
                 (Item.AIR, Vec3(x=-1, y=0, z=0)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=-1, y=1, z=0)),
@@ -249,7 +238,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=-1, y=-1, z=0)),
                 (Item.AIR, Vec3(x=0, y=-1, z=0)),
                 (Item.YELLOW_CONCRETE, Vec3(x=1, y=-1, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=0, z=0)),
@@ -261,7 +249,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=-2, z=0)),
                 (Item.AIR, Vec3(x=0, y=-2, z=1)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=2)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=0, z=-2)),
@@ -273,7 +260,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=-2, z=-2)),
                 (Item.AIR, Vec3(x=0, y=-2, z=-1)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=-2, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=2, z=0)),
@@ -285,7 +271,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=0)),
                 (Item.AIR, Vec3(x=0, y=0, z=1)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=2)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=2, z=-2)),
@@ -297,7 +282,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=-2)),
                 (Item.AIR, Vec3(x=0, y=0, z=-1)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=1, z=-1)),
@@ -309,7 +293,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=-1, z=-1)),
                 (Item.AIR, Vec3(x=0, y=-1, z=0)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=-1, z=1)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=0, z=0)),
@@ -321,7 +304,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=-2)),
                 (Item.AIR, Vec3(x=1, y=0, z=-2)),
                 (Item.YELLOW_CONCRETE, Vec3(x=2, y=0, z=-2)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=-2, y=0, z=0)),
@@ -333,7 +315,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=-2, y=0, z=-2)),
                 (Item.AIR, Vec3(x=-1, y=0, z=-2)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=-2)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=0, z=2)),
@@ -345,7 +326,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=0)),
                 (Item.AIR, Vec3(x=1, y=0, z=0)),
                 (Item.YELLOW_CONCRETE, Vec3(x=2, y=0, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=-2, y=0, z=2)),
@@ -357,7 +337,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=-2, y=0, z=0)),
                 (Item.AIR, Vec3(x=-1, y=0, z=0)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=-1, y=0, z=1)),
@@ -369,7 +348,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=-1, y=0, z=-1)),
                 (Item.AIR, Vec3(x=0, y=0, z=-1)),
                 (Item.YELLOW_CONCRETE, Vec3(x=1, y=0, z=-1)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=0, z=0)),
@@ -381,7 +359,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=2)),
                 (Item.AIR, Vec3(x=1, y=0, z=2)),
                 (Item.YELLOW_CONCRETE, Vec3(x=2, y=0, z=2)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=-2, y=0, z=0)),
@@ -393,7 +370,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=-2, y=0, z=2)),
                 (Item.AIR, Vec3(x=-1, y=0, z=2)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=2)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=0, y=0, z=-2)),
@@ -405,7 +381,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=0, y=0, z=0)),
                 (Item.AIR, Vec3(x=1, y=0, z=0)),
                 (Item.YELLOW_CONCRETE, Vec3(x=2, y=0, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=-2, y=0, z=-2)),
@@ -417,7 +392,6 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=-2, y=0, z=0)),
                 (Item.AIR, Vec3(x=-1, y=0, z=0)),
                 (Item.YELLOW_CONCRETE, Vec3(x=0, y=0, z=0)),
-
             ],
             [
                 (Item.RED_CONCRETE, Vec3(x=-1, y=0, z=-1)),
@@ -429,17 +403,18 @@ class TestOffsets(TestCase):
                 (Item.BLUE_CONCRETE, Vec3(x=-1, y=0, z=1)),
                 (Item.AIR, Vec3(x=0, y=0, z=1)),
                 (Item.YELLOW_CONCRETE, Vec3(x=1, y=0, z=1)),
-
             ],
         ]
 
     def test_offsets(self):
         """Tests multiple offsets."""
-        for index, (direction, anchor) in enumerate(product(
-                self.directions, self.anchors)):
+        for index, (direction, anchor) in enumerate(
+            product(self.directions, self.anchors)
+        ):
             self.assertEqual(
-                list(offsets(self.valid_profile, direction, anchor)),
-                self.results[index])
+                list(offsets(self.valid_profile, direction, anchor)),  # type: ignore
+                self.results[index],
+            )
 
 
 class TestValidate(TestCase):
@@ -474,17 +449,17 @@ class TestValidate(TestCase):
         # TODO is there a quick way to verify that all elements are type Item?
         # self.assertEqual(validate(self.invalid_profile0), 0)
 
-        self.assertEqual(validate(self.invalid_profile1), 0)
+        self.assertEqual(validate(self.invalid_profile1), 0)  # type: ignore
         self.assertEqual(validate(self.invalid_profile2), 0)
-        self.assertEqual(validate(self.invalid_cuboid1), 0)
+        self.assertEqual(validate(self.invalid_cuboid1), 0)  # type: ignore
 
-        self.assertEqual(validate(self.valid_profile), 2)
+        self.assertEqual(validate(self.valid_profile), 2)  # type: ignore
 
-        self.assertEqual(validate(self.valid_cuboid), 3)
-        self.assertEqual(validate(self.invalid_cuboid1), 0)
+        self.assertEqual(validate(self.valid_cuboid), 3)  # type: ignore
+        self.assertEqual(validate(self.invalid_cuboid1), 0)  # type: ignore
 
-        self.assertEqual(validate(self.valid_row), 1)
-        self.assertEqual(validate(self.invalid_row1), 0)
+        self.assertEqual(validate(self.valid_row), 1)  # type: ignore
+        self.assertEqual(validate(self.invalid_row1), 0)  # type: ignore
 
 
 class TestDirection(TestCase):
