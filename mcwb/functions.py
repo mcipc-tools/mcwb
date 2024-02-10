@@ -89,16 +89,14 @@ def validate(items: Items):
     """
     Validates a row, profile or cuboid, ensuring consistent dimensions
     """
-    ragged = False
+    invalid = False
 
-    # np ragged array is deprecated but only supplys a warning currently
-    with np.warnings.catch_warnings(record=True) as warning:
-        np.warnings.simplefilter("always")
+    try:
         n_array = np.array(items)
-        if warning and "ragged nested" in str(warning[-1].message):
-            ragged = True
+    except ValueError:
+        invalid = True
 
-    return int(n_array.ndim) if not ragged else 0
+    return int(n_array.ndim) if not invalid else 0
 
 
 def shift(arr: np.ndarray, vec: Vec3, fill: Item = Item.AIR) -> np.ndarray:
