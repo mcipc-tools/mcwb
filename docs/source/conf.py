@@ -1,8 +1,6 @@
 from os.path import abspath
 from sys import path
 
-import sphinx_rtd_theme
-
 path.insert(0, abspath('../../'))
 
 # Configuration file for the Sphinx documentation builder.

@@ -113,7 +113,7 @@ class Vec3(NamedTuple):
 
         return type(self)(self.x // other, self.y // other, self.z // other)
 
-    def __getitem__(self, index_or_key: Union[int, str]):  # type: ignore
+    def __getitem__(self, index_or_key: int | str):  # type: ignore
         """Returns an item by index or key."""
         if index_or_key in self.keys():
             return getattr(self, index_or_key)
@@ -251,17 +251,17 @@ class Direction:
     # An indexed lookup like an Enum, useful for quadrant math
     @classmethod
     @property
-    def values(cls) -> List[Vec3]:
+    def values(cls) -> list[Vec3]:
         return [cls.SOUTH, cls.WEST, cls.NORTH, cls.EAST, cls.UP, cls.DOWN]
 
     @classmethod
     @property
-    def all(cls) -> List[Vec3]:
+    def all(cls) -> list[Vec3]:
         return [val for val in vars(cls).values() if isinstance(val, Vec3)]
 
     @classmethod
     @property
-    def cardinals(cls) -> List[Vec3]:
+    def cardinals(cls) -> list[Vec3]:
         return list(cls.all[:-2])
 
     @classmethod

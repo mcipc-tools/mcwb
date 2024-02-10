@@ -49,7 +49,7 @@ def poly_profile(
     x_points, z_points = poly_points(diameter=diameter, sides=sides, offset=offset)
     x_size = max(x_points) - min(x_points) + 1
     z_size = max(z_points) - min(z_points) + 1
-    vertices = [(x, z) for x, z in zip(x_points, z_points)]
+    vertices = list(zip(x_points, z_points))
 
     profile = np.full(shape=(x_size, z_size), fill_value=Item.AIR, dtype=Item)
     center = math.floor(x_size / 2), math.floor(z_size / 2)
@@ -120,7 +120,7 @@ def draw_line_xz(
 
     profile[x][z] = item
 
-    for i in range(steps + 1):
+    for _i in range(steps + 1):
         if (x, z) != (round(next_x), round(next_z)):
             x, z = round(next_x), round(next_z)
             profile[x][z] = item

@@ -67,7 +67,7 @@ class Blocks:
 
         mask: Any = (moved == Item.AIR) & (self.ncube != Item.AIR)
 
-        for idx, block in np.ndenumerate(self.ncube):
+        for idx, _block in np.ndenumerate(self.ncube):
             if mask[idx]:
                 self._client.setblock(old_start + Vec3(*idx), Item.AIR.value)
 
