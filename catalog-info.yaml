@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mcwb
+  title: mcwb
+  description: Minecraft Interactive World Builder
+spec:
+  type: documentation
+  lifecycle: experimental
+  owner: 

@@ -1,23 +1,28 @@
-[![Documentation Status](https://readthedocs.org/projects/mcwb/badge/?version=latest)](https://mcwb.readthedocs.io/en/latest/?badge=latest)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mcipc-tools_mcwb&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=mcipc-tools_mcwb)
-[![GitHub CI](https://github.com/conqp/mcwb/actions/workflows/code.yml/badge.svg)](https://github.com/conqp/mcwb/actions/workflows/code.yml) [![PyPI version](https://badge.fury.io/py/mcwb.svg)](https://badge.fury.io/py/mcwb)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f371a10591e6412a8009591e1bab74d5)](https://www.codacy.com/gh/gilesknap/mcwb/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gilesknap/mcwb&amp;utm_campaign=Badge_Grade)
+[![CI](https://github.com/mcipc-tools/mcwb/actions/workflows/ci.yml/badge.svg)](https://github.com/mcipc-tools/mcwb/actions/workflows/ci.yml)
+[![Coverage](https://codecov.io/gh/mcipc-tools/mcwb/branch/main/graph/badge.svg)](https://codecov.io/gh/mcipc-tools/mcwb)
+[![PyPI](https://img.shields.io/pypi/v/mcwb.svg)](https://pypi.org/project/mcwb)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 # mcwb
+
 A Minecraft world builder library.
 
-## Requirements
-`mcwb` requires Python 3.9 or higher. It also depends on [mcipc](https://github.com/conqp/mcipc).
-If you install `mcwb` via `pip`, it will automatically be installed as a dependency.
 
-## Documentation
-Documentation is available on [readthedocs](https://mcwb.readthedocs.io/en/latest).
+Source          | <https://github.com/mcipc-tools/mcwb>
+:---:           | :---:
+PyPI            | `pip install mcwb`
+Documentation   | <https://mcipc-tools.github.io/mcwb>
+Releases        | <https://github.com/mcipc-tools/mcwb/releases>
 
 ## Quick start
 
 Install mcwb from the [AUR](https://aur.archlinux.org/packages/python-mcwb/) or via:
 
     pip install mcwb
+
+## Requirements
+`mcwb` requires Python 3.9 or higher. It also depends on [mcipc](https://github.com/conqp/mcipc).
+If you install `mcwb` via `pip`, it will automatically be installed as a dependency.
 
 ## Credits
 Many thanks to all contributors to the [Minecraft Wiki](https://minecraft.gamepedia.com/) and the [Wiki.vg](https://wiki.vg/Main_Page).
@@ -42,3 +47,9 @@ along with mcwb.  If not, see <http://www.gnu.org/licenses/>.
 Minecraft content and materials are trademarks and copyrights of
 Mojang and its licensors. All rights reserved.
 This program is free software and is not affiliated with Mojang.
+
+
+<!-- README only content. Anything below this line won't be included in index.md -->
+
+See https://mcipc-tools.github.io/mcwb for more detailed documentation.
+
