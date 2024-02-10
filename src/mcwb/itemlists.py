@@ -34,14 +34,15 @@ def save_items(items: Items, filename: Path) -> None:
     if validate(items) == 0:
         raise ValueError("items is not a valid Row, Profile or Cuboid")
 
-    json.dump(
-        items,
-        codecs.open(str(filename), "w", encoding="utf-8"),
-        separators=(",", ":"),
-        sort_keys=True,
-        indent=4,
-        default=json_item,
-    )
+    with codecs.open(str(filename), "w", encoding="utf-8") as file:
+        json.dump(
+            items,
+            file,
+            separators=(",", ":"),
+            sort_keys=True,
+            indent=4,
+            default=json_item,
+        )
 
 
 def load_items(filename: Union[Path, str], dimensions: int = None) -> Items:
@@ -53,9 +54,8 @@ def load_items(filename: Union[Path, str], dimensions: int = None) -> Items:
 
         return dct
 
-    result = json.load(
-        codecs.open(str(filename), "r", encoding="utf-8"), object_hook=as_item
-    )
+    with codecs.open(str(filename), "r", encoding="utf-8") as file:
+        result = json.load(file, object_hook=as_item)
     valid_dims = validate(result)
 
     if valid_dims == 0:
