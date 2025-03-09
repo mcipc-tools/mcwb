@@ -250,23 +250,20 @@ class Direction:
 
     # An indexed lookup like an Enum, useful for quadrant math
     @classmethod
-    @property
     def values(cls) -> List[Vec3]:
         return [cls.SOUTH, cls.WEST, cls.NORTH, cls.EAST, cls.UP, cls.DOWN]
 
     @classmethod
-    @property
     def all(cls) -> List[Vec3]:
         return [val for val in vars(cls).values() if isinstance(val, Vec3)]
 
     @classmethod
-    @property
     def cardinals(cls) -> List[Vec3]:
-        return list(cls.all[:-2])
+        return list(cls.all()[:-2])
 
     @classmethod
     def name(cls, direction: Vec3) -> str:
-        idx = cls.all.index(direction)
+        idx = cls.all().index(direction)
         return cls._names[idx]
 
     @classmethod
@@ -280,7 +277,7 @@ class Direction:
         angle /= pi / 2
         quarter = int(angle)
         quarter = (quarter + 1) % 4
-        return cls.values[quarter]
+        return cls.values()[quarter]
 
 
 class Planes3d(Enum):

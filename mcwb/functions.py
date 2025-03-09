@@ -50,9 +50,9 @@ def get_direction(start: Vec3, end: Vec3) -> Vec3:
 def y_rotate(direction: Vec3, clockwise: bool = True) -> Vec3:
     """rotate a cardinal direction about the y axis"""
 
-    current = Direction.cardinals.index(direction)
+    current = Direction.cardinals().index(direction)
     rotated = current + (1 if clockwise else -1)
-    return Direction.cardinals[rotated % len(Direction.cardinals)]
+    return Direction.cardinals()[rotated % len(Direction.cardinals())]
 
 
 def normalize(
