@@ -1,6 +1,7 @@
 """Helper functions."""
 
 from typing import Iterator, Union
+import typing
 
 import numpy as np
 from mcipc.rcon.enumerations import Item
@@ -98,7 +99,12 @@ def validate(items: Items):
 
     return int(n_array.ndim) if not invalid else 0
 
-
+# This results in a lot of
+# error: Slice index must be an integer, SupportsIndex or None
+# Invalid index type "tuple[slice[None, None, None], slice[None, float | int, None], slice[None, None, None]]" 
+#   for "ndarray[Any, Any]"; expected type "ndarray[tuple[int, ...], dtype[integer[Any] | numpy.bool[builtins.bool]]] 
+#   | tuple[ndarray[tuple[int, ...], dtype[integer[Any] | numpy.bool[builtins.bool]]], ...]"  [index]
+@typing.no_type_check
 def shift(arr: np.ndarray, vec: Vec3, fill: Item = Item.AIR) -> np.ndarray:
     """shift a 3d array of Item by vec, discarding the cells that are
     shifted out and filling the new space with Item fill

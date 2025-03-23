@@ -101,7 +101,7 @@ class Volume:
             profile = [[block] * int(self.size.x)] * int(self.size.y)
             make_tunnel(
                 client,
-                profile,
+                profile, # type: ignore
                 self.start,
                 direction=Direction.UP,
                 anchor=Anchor.BOTTOM_LEFT,
