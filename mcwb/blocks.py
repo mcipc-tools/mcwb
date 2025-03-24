@@ -31,16 +31,16 @@ class Blocks:
         self.position = position
 
         if isinstance(cube, np.ndarray):
-            self.ncube: np.ndarray = cube
+            self.ncube = cube
         else:
-            self.ncube: np.ndarray = np.array(cube, dtype=Item)
+            self.ncube = np.array(cube, dtype=Item)
 
         self._create()
 
         if render:
             self._render()
 
-    def _create(self):
+    def _create(self) -> None:
         if self.ncube.ndim != 3:
             raise ValueError("invalid cube specification")
 
@@ -109,7 +109,7 @@ class Blocks:
 
     def to_cuboid(self) -> Cuboid:
         """return the blocks' contents as a Cuboid"""
-        return self.ncube.tolist()
+        return self.ncube.tolist() # type: ignore
 
     def save_blocks(self, file: Path) -> None:
         """save the blocks to a file"""

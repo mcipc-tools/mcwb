@@ -113,14 +113,14 @@ class Vec3(NamedTuple):
 
         return type(self)(self.x // other, self.y // other, self.z // other)
 
-    def __getitem__(self, index_or_key: Union[int, str]):
+    def __getitem__(self, index_or_key: Union[int, str]): # type: ignore
         """Returns an item by index or key."""
-        if index_or_key in self.keys():
+        if isinstance(index_or_key, str) and index_or_key in self.keys():
             return getattr(self, index_or_key)
 
-        # Explicitely call to tuple, since
+        # Explicitly call to tuple, since
         # super() does not work in NamedTuples.
-        return tuple.__getitem__(self, index_or_key)
+        return tuple.__getitem__(self, index_or_key) # type: ignore
 
     def __mul__(self, other):
         if isinstance(other, Vec3):
@@ -250,23 +250,20 @@ class Direction:
 
     # An indexed lookup like an Enum, useful for quadrant math
     @classmethod
-    @property
     def values(cls) -> List[Vec3]:
         return [cls.SOUTH, cls.WEST, cls.NORTH, cls.EAST, cls.UP, cls.DOWN]
 
     @classmethod
-    @property
     def all(cls) -> List[Vec3]:
         return [val for val in vars(cls).values() if isinstance(val, Vec3)]
 
     @classmethod
-    @property
     def cardinals(cls) -> List[Vec3]:
-        return list(cls.all[:-2])
+        return list(cls.all()[:-2])
 
     @classmethod
     def name(cls, direction: Vec3) -> str:
-        idx = cls.all.index(direction)
+        idx = cls.all().index(direction)
         return cls._names[idx]
 
     @classmethod
@@ -280,7 +277,7 @@ class Direction:
         angle /= pi / 2
         quarter = int(angle)
         quarter = (quarter + 1) % 4
-        return cls.values[quarter]
+        return cls.values()[quarter]
 
 
 class Planes3d(Enum):

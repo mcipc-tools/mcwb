@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Union
 
 import numpy as np
+from numpy.typing import NDArray
 from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
 
@@ -26,7 +27,7 @@ def save_items(items: Items, filename: Path) -> None:
     """save a Profile, Cuboid or Row to a json file"""
 
     if isinstance(items, np.ndarray):
-        items = items.tolist()
+        items = items.tolist() # type: ignore
 
     def json_item(item: Item):
         return {ITEM_KEY: item.value}
@@ -44,7 +45,7 @@ def save_items(items: Items, filename: Path) -> None:
     )
 
 
-def load_items(filename: Union[Path, str], dimensions: int = None) -> Items:
+def load_items(filename: Union[Path, str], dimensions: int = 0) -> Items:
     """load a JSON file of Items - returns a Cuboid, Profile or Row"""
 
     def as_item(dct: dict):
@@ -61,7 +62,7 @@ def load_items(filename: Union[Path, str], dimensions: int = None) -> Items:
     if valid_dims == 0:
         raise ValueError("file {filename} contains invalid JSON")
 
-    if dimensions is not None and valid_dims != dimensions:
+    if dimensions != 0 and valid_dims != dimensions:
         raise ValueError(
             "file {filename} contains {valid_dims} dimension Items"
             "but {dimensions} dimensions was requested"
@@ -72,10 +73,10 @@ def load_items(filename: Union[Path, str], dimensions: int = None) -> Items:
 
 def grab(client: Client, vol: Volume) -> Cuboid:
     """copy blocks from a Volume in the minecraft world into a cuboid of Item"""
-    cube = np.ndarray(vol.size.i_tuple, dtype=Item)
+    cube: NDArray[Item] = np.ndarray(vol.size.i_tuple, dtype=Item)
 
     for idx, _ in np.ndenumerate(cube):
         cube[idx] = get_block(client, vol.start + Vec3(*idx))
 
     result = cube.tolist()
-    return result
+    return result # type: ignore
